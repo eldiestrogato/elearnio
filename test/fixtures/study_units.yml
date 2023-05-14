@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  is_course_completed: false
+  talent: one
+  studyable: one
+  studyable_type: Studyable
+
+two:
+  is_course_completed: false
+  talent: two
+  studyable: two
+  studyable_type: Studyable
