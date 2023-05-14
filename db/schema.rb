@@ -10,9 +10,50 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2023_05_14_130254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "authors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "author_id"
+    t.index ["author_id"], name: "index_courses_on_author_id"
+  end
+
+  create_table "learning_paths", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "lp_courses", force: :cascade do |t|
+    t.bigint "learning_path_id", null: false
+    t.bigint "course_id", null: false
+    t.integer "course_number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_lp_courses_on_course_id"
+    t.index ["learning_path_id"], name: "index_lp_courses_on_learning_path_id"
+  end
+
+  create_table "talents", force: :cascade do |t|
+    t.string "name"
+    t.boolean "is_author"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "courses", "authors"
+  add_foreign_key "lp_courses", "courses"
+  add_foreign_key "lp_courses", "learning_paths"
 end
