@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  learning_path: one
+  course: one
+  course_number: 1
+
+two:
+  learning_path: two
+  course: two
+  course_number: 1
