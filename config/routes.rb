@@ -1,3 +1,15 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  #root 'orders_admin/admin#index'
+  namespace 'api' do
+    namespace 'v1' do
+      resources :courses
+      resources :learning_paths
+      resources :authors
+      resources :talents do
+        resources :study_units
+        resources :study_lps
+      end
+
+    end
+  end
 end
