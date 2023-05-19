@@ -1,43 +1,62 @@
 class StudyUnitService
-  attr_reader :study_unit_params
+  attr_reader :parameters
 
-  def initialize(study_unit_params)
-    @study_unit_params = study_unit_params
+  def initialize(parameters)
+    @parameters = parameters
   end
 
-  def call
+  def get_start_course
     if has_first_course?
-      give_course
+      check_course(parameters[:learning_path_id])
     else
-      new_study_unit = talent.study_units.build(course_id: @course)
+      new_study_unit = talent_courses.build(course_id: @course)
       new_study_unit.save
+    end
+  end
+
+  def next_course
+    talent.study_lps.each do |talent_lp|
+      check_course(talent_lp.learning_path_id)
     end
   end
 
   private
 
-  def give_course
-
-    lp_courses_ids = LearningPath.find(study_unit_params[:learning_path_id]).courses.order(:course_number).pluck(:id)
-    talent_courses_ids = talent.study_units.pluck(:course_id)
-
-
-    new_study_unit = talent.study_units.build(course_id: @course)
-    new_study_unit.save
+  def check_course(lp_id)
+    lp_courses = fetch_lp_courses(lp_id)
+    talent_courses_of_lp = talent_courses.where(course_id: lp_courses.pluck(:id))
+    if talent_courses_of_lp.where(is_course_completed: false).empty?
+      get_course(lp_courses)
+    else
+      puts "Don't need new course"
+    end
   end
 
-  def next_course
+  def get_course(lp_courses)
+    lp_courses_left = lp_courses.where.not(id: talent_courses.pluck(:course_id))
+    if lp_courses_left.empty?
+      puts "All courses are completed in this LP"
+    else
+      new_study_unit = talent_courses.build(course_id: lp_courses_left.first.id)
+      new_study_unit.save
+    end
+  end
 
+  def fetch_lp_courses(lp_id)
+    LearningPath.find(lp_id).courses.order(:course_number)
   end
 
   def talent
-    Talent.find(study_unit_params[:talent_id])
+    Talent.find(parameters[:talent_id])
+  end
+
+  def talent_courses
+    talent.study_units
   end
 
   def has_first_course?
-    lp_courses = LearningPath.find(study_unit_params[:learning_path_id]).courses.order(:course_number)
     talent_courses_ids = talent.study_units.pluck(:course_id)
-    @course = lp_courses.first.id
+    @course = fetch_lp_courses(parameters[:learning_path_id]).first.id
     talent_courses_ids.include?(@course)
   end
 

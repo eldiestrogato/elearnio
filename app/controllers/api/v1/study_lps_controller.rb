@@ -17,7 +17,7 @@ module Api
 
         if @study_lp.save
 
-          StudyUnitService.new(study_lp_params).call
+          StudyUnitService.new(study_lp_params).get_start_course
 
           render json: {status: 'SUCCESS', message: 'study_lp is saved', data:@study_lp}, status: :ok
         else
