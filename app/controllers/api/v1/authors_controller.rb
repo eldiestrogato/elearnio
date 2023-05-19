@@ -34,6 +34,7 @@ module Api
 
       def destroy
         @author = Author.find(params[:id])
+        @author.change_author(params[:new_author_id])
         @author.destroy
 
         render json: {status: 'SUCCESS', message: 'author successfully deleted', data:@author}, status: :ok
