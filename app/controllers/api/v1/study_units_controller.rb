@@ -26,7 +26,12 @@ module Api
         @study_unit = StudyUnit.find(params[:id])
 
         if @study_unit.update_attributes(study_unit_params)
+          if study_unit_params[:is_course_completed] == 'true'
+            StudyUnitService.new(study_unit_params).next_course
+            render json: {status: 'SUCCESS', message: 'study_unit is updated and get next course', data:@study_unit}, status: :ok
+          else
           render json: {status: 'SUCCESS', message: 'study_unit is updated', data:@study_unit}, status: :ok
+          end
         else
           render json: {status: 'Error', message: 'study_unit is not updated', data:@study_unit.errors}, status: :unprocessable_entity
         end

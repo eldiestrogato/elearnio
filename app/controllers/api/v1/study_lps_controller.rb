@@ -16,6 +16,9 @@ module Api
         @study_lp = @talent.study_lps.build(study_lp_params)
 
         if @study_lp.save
+
+          StudyUnitService.new(study_lp_params).get_start_course
+
           render json: {status: 'SUCCESS', message: 'study_lp is saved', data:@study_lp}, status: :ok
         else
           render json: {status: 'Error', message: 'study_lp is not saved', data:@study_lp.errors}, status: :unprocessable_entity
