@@ -42,9 +42,9 @@ module Api
 
       private
 
-        def learning_path_params
-          params.require(:learning_path).permit(:title, lp_courses_attributes: [:course_id, :course_number])
-        end
+      def learning_path_params
+        params.require(:learning_path).permit(:title, lp_courses_attributes: [:course_id, :course_number])
+      end
     end
   end
 end
