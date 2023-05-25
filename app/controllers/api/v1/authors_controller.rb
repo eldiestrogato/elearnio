@@ -4,12 +4,22 @@ module Api
 
       def index
         @authors = Author.all
-        render json: {status: 'SUCCESS', message: 'Loaded authors', data:@authors}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'Loaded Authors with their courses',
+                      data: AuthorBlueprint.render_as_json(@authors, view: :all)
+                      },
+                      status: :ok
       end
 
       def show
         @author = Author.find(params[:id])
-        render json: {status: 'SUCCESS', message: 'Loaded authors', data:@author}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'Loaded Author with their courses',
+                      data: AuthorBlueprint.render_as_json(@author, view: :all)
+                      },
+                      status: :ok
       end
 
       def create
@@ -34,6 +44,7 @@ module Api
 
       def destroy
         @author = Author.find(params[:id])
+        @author.change_author(params[:new_author_id])
         @author.destroy
 
         render json: {status: 'SUCCESS', message: 'author successfully deleted', data:@author}, status: :ok

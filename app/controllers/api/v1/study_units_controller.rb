@@ -1,15 +1,25 @@
 module Api
   module V1
     class StudyUnitsController < ApplicationController
-      before_action :set_talent
+      before_action :set_talent, except: :index
       def index
-        @study_units = @talent.study_units
-        render json: {status: 'SUCCESS', message: 'Loaded study_units', data:@study_units}, status: :ok
+        @study_units = StudyUnit.all
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'Loaded all Study Units',
+                      data: StudyUnitBlueprint.render_as_json(@study_units, view: :all)
+                      },
+                      status: :ok
       end
 
       def show
         @study_unit = StudyUnit.find(params[:id])
-        render json: {status: 'SUCCESS', message: 'Loaded study_units', data:@study_unit}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'Loaded Study Unit',
+                      data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all)
+                      },
+                      status: :ok
       end
 
       def create

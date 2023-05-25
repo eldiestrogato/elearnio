@@ -4,13 +4,22 @@ module Api
 
       def index
         @learning_paths = LearningPath.all
-        render json: {status: 'SUCCESS', message: 'Loaded learning_paths', data:@learning_paths}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'Loaded Learning Paths with its courses',
+                      data: LearningPathBlueprint.render_as_json(@learning_paths, view: :all)
+                      },
+                      status: :ok
       end
 
       def show
         @learning_path = LearningPath.find(params[:id])
-        @lp_ordered = @learning_path.courses.order(:course_number)
-        render json: {status: 'SUCCESS', message: 'Loaded learning_paths', data:@learning_path}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'Loaded Learning Path with its courses',
+                      data: LearningPathBlueprint.render_as_json(@learning_path, view: :all)
+                      },
+                      status: :ok
       end
 
       def create
@@ -42,9 +51,9 @@ module Api
 
       private
 
-        def learning_path_params
-          params.require(:learning_path).permit(:title, lp_courses_attributes: [:course_id, :course_number])
-        end
+      def learning_path_params
+        params.require(:learning_path).permit(:title, lp_courses_attributes: [:course_id, :course_number])
+      end
     end
   end
 end
