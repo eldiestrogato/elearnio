@@ -4,12 +4,22 @@ module Api
 
       def index
         @courses = Course.all
-        render json: {status: 'SUCCESS', message: 'Loaded courses', data:@courses}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'Loaded Courses',
+                      data: CourseBlueprint.render_as_json(@courses, view: :all)
+                      },
+                      status: :ok
       end
 
       def show
         @course = Course.find(params[:id])
-        render json: {status: 'SUCCESS', message: 'Loaded courses', data:@course}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'Loaded Course',
+                      data: CourseBlueprint.render_as_json(@course, view: :all)
+                      },
+                      status: :ok
       end
 
       def create

@@ -1,15 +1,25 @@
 module Api
   module V1
     class StudyLpsController < ApplicationController
-      before_action :set_talent
+      before_action :set_talent, except: :index
       def index
-        @study_lps = @talent.study_lps
-        render json: {status: 'SUCCESS', message: 'Loaded study_lps', data:@study_lps}, status: :ok
+        @study_lps = StudyLp.all
+        render json: {
+                      status: 'SUCCESS',
+                      message: "Loaded All Study Learning Paths",
+                      data: StudyLpBlueprint.render_as_json(@study_lps, view: :all)
+                      },
+                      status: :ok
       end
 
       def show
         @study_lp = StudyLp.find(params[:id])
-        render json: {status: 'SUCCESS', message: 'Loaded study_lps', data:@study_lp}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: "Loaded Study Learning Path",
+                      data: StudyLpBlueprint.render_as_json(@study_lp, view: :all)
+                      },
+                      status: :ok
       end
 
       def create
