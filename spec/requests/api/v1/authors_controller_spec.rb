@@ -34,7 +34,7 @@ describe Api::V1::AuthorsController, type: :request do
     end
   end
 
-  describe 'Update Action - POST /api/v1/authors' do
+  describe 'Create Action - POST /api/v1/authors' do
     context 'given valid params' do
      it 'responds with created status' do
        params = {author: { name: 'Author One' }}
@@ -66,6 +66,44 @@ describe Api::V1::AuthorsController, type: :request do
        params = {author: { name: '' }}
 
        post api_v1_authors_path, params: params
+
+       expect(response.body).to match_response_schema('errors', strict: true)
+     end
+    end
+  end
+
+  describe 'Update Action - POST /api/v1/authors' do
+    context 'given valid params' do
+     it 'responds with ok status' do
+       author = Fabricate(:author, name: 'Author One')
+       params = {author: { name: 'Author Two' }}
+       patch api_v1_author_path(author.id), params: params
+
+       expect(response).to have_http_status :ok
+     end
+
+     it 'returns with response body' do
+       author = Fabricate(:author, name: 'Author One')
+       params = {author: { name: 'Author Two' }}
+       patch api_v1_author_path(author.id), params: params
+
+       expect(response.body).to match_response_schema('author', strict: true)
+     end
+    end
+
+    context 'given invalid params' do
+     it 'responds with unprocessable_entity status' do
+       author = Fabricate(:author, name: 'Author One')
+       params = {author: { name: '' }}
+       patch api_v1_author_path(author.id), params: params
+
+       expect(response).to have_http_status(:unprocessable_entity)
+     end
+
+     it 'responds with an error' do
+       author = Fabricate(:author, name: 'Author One')
+       params = {author: { name: '' }}
+       patch api_v1_author_path(author.id), params: params
 
        expect(response.body).to match_response_schema('errors', strict: true)
      end
