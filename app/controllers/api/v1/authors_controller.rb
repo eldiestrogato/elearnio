@@ -26,9 +26,19 @@ module Api
         @author = Author.new(author_params)
 
         if @author.save
-          render json: {status: 'SUCCESS', message: 'author is saved', data:@author}, status: :ok
+          render json: {
+                        status: 'SUCCESS',
+                        message: 'author is saved',
+                        data: AuthorBlueprint.render_as_json(@author, view: :all)
+                        },
+                        status: :created
         else
-          render json: {status: 'Error', message: 'author is not saved', data:@author.errors}, status: :unprocessable_entity
+          render json: {
+                        status: 'Error',
+                        message: 'author is not saved',
+                        data:@author.errors
+                        },
+                        status: :unprocessable_entity
         end
       end
 
@@ -36,9 +46,19 @@ module Api
         @author = Author.find(params[:id])
 
         if @author.update_attributes(author_params)
-          render json: {status: 'SUCCESS', message: 'author is updated', data:@author}, status: :ok
+          render json: {
+                        status: 'SUCCESS',
+                        message: 'author is updated',
+                        data: AuthorBlueprint.render_as_json(@author, view: :all)
+                        },
+                        status: :ok
         else
-          render json: {status: 'Error', message: 'author is not updated', data:@author.errors}, status: :unprocessable_entity
+          render json: {
+                        status: 'Error',
+                        message: 'author is not updated',
+                        data:@author.errors
+                        },
+                        status: :unprocessable_entity
         end
       end
 
@@ -47,7 +67,11 @@ module Api
         @author.change_author(params[:new_author_id])
         @author.destroy
 
-        render json: {status: 'SUCCESS', message: 'author successfully deleted', data:@author}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'author successfully deleted'                      
+                      },
+                      status: :no_content
       end
 
       private
