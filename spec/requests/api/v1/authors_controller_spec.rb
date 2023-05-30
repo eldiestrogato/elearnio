@@ -72,7 +72,7 @@ describe Api::V1::AuthorsController, type: :request do
     end
   end
 
-  describe 'Update Action - POST /api/v1/authors' do
+  describe 'Update Action - POST /api/v1/authors/:id' do
     context 'given valid params' do
      it 'responds with ok status' do
        author = Fabricate(:author, name: 'Author One')

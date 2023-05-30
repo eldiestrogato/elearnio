@@ -29,6 +29,10 @@ group :development, :test do
   gem "json_matchers"
   # Test objects-generator
   gem 'fabrication'
+  # For access to instances in controller
+  gem 'rails-controller-testing'
+  # DB cleaner
+  gem 'database_cleaner-active_record'
 end
 
 
