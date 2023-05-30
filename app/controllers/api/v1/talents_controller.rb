@@ -4,12 +4,22 @@ module Api
 
       def index
         @talents = Talent.all
-        render json: {status: 'SUCCESS', message: 'Loaded talents', data:@talents}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'Loaded Talents',
+                      data: TalentBlueprint.render_as_json(@talents, view: :all)
+                      },
+                      status: :ok
       end
 
       def show
         @talent = Talent.find(params[:id])
-        render json: {status: 'SUCCESS', message: 'Loaded talents', data:@talent}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'Loaded Talent',
+                      data: TalentBlueprint.render_as_json(@talent, view: :all)
+                      },
+                      status: :ok
       end
 
       def create

@@ -6,10 +6,11 @@ Rails.application.routes.draw do
       resources :learning_paths
       resources :authors
       resources :talents do
-        resources :study_units
-        resources :study_lps
+        resources :study_units, except: :index
+        resources :study_lps, except: :index
       end
-
+      resources :study_units, only: :index
+      resources :study_lps, only: :index
     end
   end
 end
