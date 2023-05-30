@@ -119,12 +119,26 @@ describe Api::V1::AuthorsController, type: :request do
      expect(response).to have_http_status :no_content
    end
 
-   it 'returns with response body' do
+   it 'returns with response body when author has no courses' do
      author = Fabricate(:author, name: 'Author One')
 
      delete api_v1_author_path(author.id)
 
      expect(response.body).to be_empty
    end
+
+    it 'returns with response body when author has some courses' do
+      author = Fabricate(:author, name: 'Author One')
+      another_author = Fabricate(:author, name: 'Author Another')
+      courses = Fabricate.times(2, :course, author_id: author.id)
+      params = { new_author_id: another_author.id}
+
+      delete api_v1_author_path(author.id), params: params
+
+      expect{courses.each{|c| c.reload}}.to change { courses.first.author_id }.to(another_author.id)
+                                        .and change { courses.last.author_id }.to(another_author.id)
+      expect(response.body).to be_empty
+
+    end
  end
 end

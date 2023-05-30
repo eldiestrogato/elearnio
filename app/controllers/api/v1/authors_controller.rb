@@ -69,7 +69,7 @@ module Api
 
         render json: {
                       status: 'SUCCESS',
-                      message: 'author successfully deleted'                      
+                      message: 'author successfully deleted'
                       },
                       status: :no_content
       end
