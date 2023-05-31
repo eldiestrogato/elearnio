@@ -49,9 +49,31 @@ describe Api::V1::CoursesController, type: :request do
        expect(response).to have_http_status :created
      end
 
-     it 'returns with response body. Is not an author' do
+     it 'returns with response body' do
        expect(response.body).to match_response_schema('course', strict: true)
      end
+    end
+
+    context 'given valid params with learning paths' do
+      it 'returns adding to associated Learning Paths' do
+        course = Fabricate(:course)
+        lp_one = Fabricate(:learning_path, title: 'LP One', lp_courses_attributes: [course_id: course.id, course_number: 1])
+        lp_two = Fabricate(:learning_path, title: 'LP Two', lp_courses_attributes: [course_id: course.id, course_number: 1])
+        author = Fabricate(:author)
+        params = {
+                  course: {
+                            title: 'Course One',
+                            body: 'Some body is here',
+                            author_id: author.id,
+                            learning_path_ids: [lp_one.id, lp_two.id]
+                          }
+                 }
+
+        post api_v1_courses_path, params: params
+
+        expect(assigns(:course).learning_paths.first.id).to eq(lp_one.id)
+        expect(assigns(:course).learning_paths.last.id).to eq(lp_two.id)
+      end
     end
 
     context 'given invalid params' do
