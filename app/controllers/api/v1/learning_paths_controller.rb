@@ -26,9 +26,19 @@ module Api
         @learning_path = LearningPath.new(learning_path_params)
 
         if @learning_path.save
-          render json: {status: 'SUCCESS', message: 'learning_path is saved', data:@learning_path}, status: :ok
+          render json: {
+                        status: 'SUCCESS',
+                        message: 'learning_path is saved',
+                        data: LearningPathBlueprint.render_as_json(@learning_path, view: :all)
+                        },
+                        status: :created
         else
-          render json: {status: 'Error', message: 'learning_path is not saved', data:@learning_path.errors}, status: :unprocessable_entity
+          render json: {
+                        status: 'Error',
+                        message: 'learning_path is not saved',
+                        data:@learning_path.errors
+                        },
+                        status: :unprocessable_entity
         end
       end
 
@@ -36,9 +46,19 @@ module Api
         @learning_path = LearningPath.find(params[:id])
 
         if @learning_path.update_attributes(learning_path_params)
-          render json: {status: 'SUCCESS', message: 'learning_path is updated', data:@learning_path}, status: :ok
+          render json: {
+                        status: 'SUCCESS',
+                        message: 'learning_path is updated',
+                        data: LearningPathBlueprint.render_as_json(@learning_path, view: :all)
+                        },
+                        status: :ok
         else
-          render json: {status: 'Error', message: 'learning_path is not updated', data:@learning_path.errors}, status: :unprocessable_entity
+          render json: {
+                        status: 'Error',
+                        message: 'learning_path is not updated',
+                        data:@learning_path.errors
+                        },
+                        status: :unprocessable_entity
         end
       end
 
@@ -46,7 +66,11 @@ module Api
         @learning_path = LearningPath.find(params[:id])
         @learning_path.destroy
 
-        render json: {status: 'SUCCESS', message: 'learning_path successfully deleted', data:@learning_path}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'learning_path successfully deleted'
+                      },
+                      status: :no_content
       end
 
       private
