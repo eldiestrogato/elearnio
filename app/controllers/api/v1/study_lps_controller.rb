@@ -29,9 +29,19 @@ module Api
 
           StudyUnitService.new(study_lp_params).get_start_course
 
-          render json: {status: 'SUCCESS', message: 'study_lp is saved', data:@study_lp}, status: :ok
+          render json: {
+                        status: 'SUCCESS',
+                        message: 'study_lp is saved',
+                        data: StudyLpBlueprint.render_as_json(@study_lp, view: :all)
+                        },
+                        status: :created
         else
-          render json: {status: 'Error', message: 'study_lp is not saved', data:@study_lp.errors}, status: :unprocessable_entity
+          render json: {
+                        status: 'Error',
+                        message: 'study_lp is not saved',
+                        data:@study_lp.errors
+                        },
+                        status: :unprocessable_entity
         end
       end
 
@@ -39,9 +49,19 @@ module Api
         @study_lp = StudyLp.find(params[:id])
 
         if @study_lp.update_attributes(study_lp_params)
-          render json: {status: 'SUCCESS', message: 'study_lp is updated', data:@study_lp}, status: :ok
+          render json: {
+                        status: 'SUCCESS',
+                        message: 'study_lp is updated',
+                        data: StudyLpBlueprint.render_as_json(@study_lp, view: :all)
+                        },
+                        status: :ok
         else
-          render json: {status: 'Error', message: 'study_lp is not updated', data:@study_lp.errors}, status: :unprocessable_entity
+          render json: {
+                        status: 'Error',
+                        message: 'study_lp is not updated',
+                        data:@study_lp.errors
+                        },
+                        status: :unprocessable_entity
         end
       end
 
@@ -49,7 +69,11 @@ module Api
         @study_lp = StudyLp.find(params[:id])
         @study_lp.destroy
 
-        render json: {status: 'SUCCESS', message: 'study_lp successfully deleted', data:@study_lp}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'study_lp successfully deleted',
+                      },
+                      status: :no_content
       end
 
       private

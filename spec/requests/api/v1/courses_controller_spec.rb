@@ -9,10 +9,7 @@ describe Api::V1::CoursesController, type: :request do
     end
 
     it 'responds with courses' do
-      author_one = Fabricate(:author)
-      author_two = Fabricate(:author)
-      Fabricate(:course, title: 'Course One', body: 'Some body is here', author_id: author_one.id)
-      Fabricate(:course, title: 'Course Two', body: 'Another body is here', author_id: author_two.id)
+      Fabricate.times(4, :course)
 
       get api_v1_courses_path
 
@@ -68,7 +65,7 @@ describe Api::V1::CoursesController, type: :request do
                             learning_path_ids: [lp_one.id, lp_two.id]
                           }
                  }
-
+                 
         post api_v1_courses_path, params: params
 
         expect(assigns(:course).learning_paths.first.id).to eq(lp_one.id)

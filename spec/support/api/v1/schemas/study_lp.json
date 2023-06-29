@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "learning_path": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "integer" },
+            "title": { "type": "string" }
+          },
+          "required": ["id", "title"]
+        },
+        "talent": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "integer" },
+            "name": { "type": "string" },
+            "is_author": { "type": "boolean" }
+          },
+          "required": ["id", "name", "is_author"]
+         }
+      },
+      "required": ["id", "learning_path", "talent"]
+     }
+   },
+  "required": ["data"]
+}
