@@ -1,6 +1,22 @@
 require 'rails_helper'
 
 describe Api::V1::LearningPathsController, type: :request do
+  before do
+    course = Fabricate(:course)
+    lp_one = Fabricate(:learning_path) do
+      title 'LP One'
+      lp_courses_attributes [course_id: course.id, course_number: 2]
+    end
+    lp_two = Fabricate(:learning_path) do
+      title 'LP Two'
+      lp_courses_attributes [course_id: course.id, course_number: 1]
+    end
+    @lp_test = Fabricate(:learning_path) do
+      title 'LP TEST'
+      lp_courses_attributes [course_id: course.id, course_number: 1]
+    end
+  end
+
   describe 'Index Acton - GET /api/v1/learning_paths' do
     it 'responds with ok status' do
       get api_v1_learning_paths_path
@@ -9,10 +25,6 @@ describe Api::V1::LearningPathsController, type: :request do
     end
 
     it 'responds with learning_paths' do
-      lp_one = Fabricate(:learning_path)
-      lp_two = Fabricate(:learning_path)
-
-
       get api_v1_learning_paths_path
 
       expect(response.body).to match_response_schema('learning_paths', strict: true)
@@ -21,13 +33,7 @@ describe Api::V1::LearningPathsController, type: :request do
 
   describe 'Show Action - GET /api/v1/learning_paths/:id' do
     before do
-      course = Fabricate(:course)
-      learning_path = Fabricate(:learning_path) do
-        title 'LP One'
-        lp_courses_attributes [course_id: course.id, course_number: 2]
-      end
-
-      get api_v1_learning_path_path(learning_path.id)
+      get api_v1_learning_path_path(@lp_test.id)
     end
 
     it 'responds with ok status' do

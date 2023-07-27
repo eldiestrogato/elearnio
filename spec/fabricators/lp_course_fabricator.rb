@@ -1,4 +1,4 @@
 Fabricator(:lp_course) do
-course
-
+  course
+  learning_path
 end
