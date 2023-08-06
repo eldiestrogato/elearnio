@@ -110,9 +110,9 @@ describe Api::V1::AuthorsController, type: :request do
 
     it 'returns with response body when author has some courses' do
       author = Fabricate(:author, name: 'Author for destroying')
-      courses = Fabricate.times(2, :course, author_id: author.id)
+      courses = Fabricate.times(2, :course, author: author)
       params = { new_author_id: @author_two.id }
-
+      
       delete api_v1_author_path(author.id), params: params
 
       expect{courses.each{|c| c.reload}}.to change { courses.first.author_id }.to(@author_two.id)

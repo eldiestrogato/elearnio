@@ -110,7 +110,7 @@ describe Api::V1::CoursesController, type: :request do
       before do
         author_one = Fabricate(:author)
         author_two = Fabricate(:author)
-        course = Fabricate(:course, author_id: author_one.id)
+        course = Fabricate(:course, author: author_one)
         params = {course: { title: 'Course Two', body: 'Another body is here', author_id: author_two.id}}
 
         patch api_v1_course_path(course.id), params: params
@@ -127,8 +127,7 @@ describe Api::V1::CoursesController, type: :request do
 
     context 'given invalid params' do
       it 'responds with code and errors in title' do
-        author = Fabricate(:author)
-        course = Fabricate(:course, author_id: author.id)
+        course = Fabricate(:course)
         params = {course: { title: ''}}
 
         patch api_v1_course_path(course.id), params: params
@@ -138,8 +137,7 @@ describe Api::V1::CoursesController, type: :request do
       end
 
       it 'responds with code and errors in body' do
-        author = Fabricate(:author)
-        course = Fabricate(:course, author_id: author.id)
+        course = Fabricate(:course)
         params = {course: { body: ''}}
 
         patch api_v1_course_path(course.id), params: params
@@ -149,8 +147,7 @@ describe Api::V1::CoursesController, type: :request do
       end
 
       it 'responds with code and errors in presence of author' do
-        author = Fabricate(:author)
-        course = Fabricate(:course, author_id: author.id)
+        course = Fabricate(:course)
         params = {course: { author_id: nil}}
 
         patch api_v1_course_path(course.id), params: params
