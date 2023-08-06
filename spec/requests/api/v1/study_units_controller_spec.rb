@@ -5,16 +5,10 @@ describe Api::V1::StudyUnitsController, type: :request do
     talent = Fabricate(:talent)
     course_one = Fabricate(:course)
     course_two = Fabricate(:course)
-    @study_unit_1 = Fabricate(:study_unit) do
-      talent_id talent.id
-    end
-    @study_unit_2 = Fabricate(:study_unit) do
-      talent_id talent.id
-    end
-
+    @study_unit_1 = Fabricate(:study_unit, talent: talent)
+    @study_unit_2 = Fabricate(:study_unit, talent: talent)
     @talent = talent
     @course_one = course_one
-    @course_two = course_two
   end
 
   describe 'Index Acton - GET /api/v1/study_units' do
@@ -96,7 +90,6 @@ describe Api::V1::StudyUnitsController, type: :request do
         params = {
                   study_unit:
                     {
-                      talent_id: @talent.id,
                       course: course_new.id
                     }
                   }

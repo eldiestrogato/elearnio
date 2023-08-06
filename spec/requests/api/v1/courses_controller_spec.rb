@@ -19,8 +19,7 @@ describe Api::V1::CoursesController, type: :request do
 
   describe 'Show Action - GET /api/v1/courses/:id' do
     before do
-      author_one = Fabricate(:author)
-      course = Fabricate(:course, author_id: author_one.id)
+      course = Fabricate(:course)
       get api_v1_course_path(course.id)
     end
 
@@ -65,7 +64,7 @@ describe Api::V1::CoursesController, type: :request do
                             learning_path_ids: [lp_one.id, lp_two.id]
                           }
                  }
-                 
+
         post api_v1_courses_path, params: params
 
         expect(assigns(:course).learning_paths.first.id).to eq(lp_one.id)
@@ -111,7 +110,7 @@ describe Api::V1::CoursesController, type: :request do
       before do
         author_one = Fabricate(:author)
         author_two = Fabricate(:author)
-        course = Fabricate(:course, author_id: author_one.id)
+        course = Fabricate(:course, author: author_one)
         params = {course: { title: 'Course Two', body: 'Another body is here', author_id: author_two.id}}
 
         patch api_v1_course_path(course.id), params: params
@@ -128,8 +127,7 @@ describe Api::V1::CoursesController, type: :request do
 
     context 'given invalid params' do
       it 'responds with code and errors in title' do
-        author = Fabricate(:author)
-        course = Fabricate(:course, author_id: author.id)
+        course = Fabricate(:course)
         params = {course: { title: ''}}
 
         patch api_v1_course_path(course.id), params: params
@@ -139,8 +137,7 @@ describe Api::V1::CoursesController, type: :request do
       end
 
       it 'responds with code and errors in body' do
-        author = Fabricate(:author)
-        course = Fabricate(:course, author_id: author.id)
+        course = Fabricate(:course)
         params = {course: { body: ''}}
 
         patch api_v1_course_path(course.id), params: params
@@ -150,8 +147,7 @@ describe Api::V1::CoursesController, type: :request do
       end
 
       it 'responds with code and errors in presence of author' do
-        author = Fabricate(:author)
-        course = Fabricate(:course, author_id: author.id)
+        course = Fabricate(:course)
         params = {course: { author_id: nil}}
 
         patch api_v1_course_path(course.id), params: params
@@ -164,8 +160,7 @@ describe Api::V1::CoursesController, type: :request do
 
   describe 'Destroy Action - DELETE /api/v1/courses/:id' do
     before do
-      author = Fabricate(:author)
-      course = Fabricate(:course, author_id: author.id)
+      course = Fabricate(:course)
 
       delete api_v1_course_path(course.id)
     end

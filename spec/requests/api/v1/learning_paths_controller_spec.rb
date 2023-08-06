@@ -15,6 +15,7 @@ describe Api::V1::LearningPathsController, type: :request do
       title 'LP TEST'
       lp_courses_attributes [course_id: course.id, course_number: 1]
     end
+    @course = course
   end
 
   describe 'Index Acton - GET /api/v1/learning_paths' do
@@ -109,7 +110,6 @@ describe Api::V1::LearningPathsController, type: :request do
      end
 
      it 'responds with code and errors in presence of course' do
-       course = Fabricate(:course)
        params = {
                  learning_path:
                    {
@@ -185,11 +185,6 @@ describe Api::V1::LearningPathsController, type: :request do
       end
 
       it 'responds with code and errors in presence of course' do
-        course = Fabricate(:course)
-        learning_path = Fabricate(:learning_path) do
-          title 'LP Current title'
-          lp_courses_attributes [course_id: course.id, course_number: 2]
-        end
         params = {
                   learning_path:
                     {
@@ -201,7 +196,7 @@ describe Api::V1::LearningPathsController, type: :request do
                     }
                   }
 
-        patch api_v1_learning_path_path(learning_path.id), params: params
+        patch api_v1_learning_path_path(@lp_test.id), params: params
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.body).to match_response_schema('errors', strict: true)
@@ -211,13 +206,7 @@ describe Api::V1::LearningPathsController, type: :request do
 
   describe 'Destroy Action - DELETE /api/v1/learning_paths/:id' do
     before do
-      course = Fabricate(:course)
-      learning_path = Fabricate(:learning_path) do
-        title 'LP One'
-        lp_courses_attributes [course_id: course.id, course_number: 2]
-      end
-
-      delete api_v1_learning_path_path(learning_path.id)
+      delete api_v1_learning_path_path(@lp_test.id)
     end
 
     it 'responds with no_content status' do

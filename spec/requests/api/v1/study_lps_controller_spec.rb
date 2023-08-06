@@ -102,11 +102,9 @@ describe Api::V1::StudyLpsController, type: :request do
   describe 'Update Action - POST /api/v1/study_lps/:id' do
     context 'given valid params' do
       before do
-        talent_new = Fabricate(:talent)
         params = {
                   study_lp:
                     {
-                      talent_id: talent_new.id,
                       learning_path_id: @lp_two.id
                     }
                   }

@@ -39,7 +39,7 @@ module Api
           render json: {
                         status: 'Error',
                         message: 'study_lp is not saved',
-                        data:@study_lp.errors
+                        data: @study_lp.errors
                         },
                         status: :unprocessable_entity
         end
@@ -59,7 +59,7 @@ module Api
           render json: {
                         status: 'Error',
                         message: 'study_lp is not updated',
-                        data:@study_lp.errors
+                        data: @study_lp.errors
                         },
                         status: :unprocessable_entity
         end
