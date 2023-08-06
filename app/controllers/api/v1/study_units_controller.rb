@@ -26,9 +26,20 @@ module Api
         @study_unit = @talent.study_units.build(study_unit_params)
 
         if @study_unit.save
-          render json: {status: 'SUCCESS', message: 'study_unit is saved', data:@study_unit}, status: :ok
+
+          render json: {
+                        status: 'SUCCESS',
+                        message: 'study_unit is saved',
+                        data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all)
+                        },
+                        status: :created
         else
-          render json: {status: 'Error', message: 'study_unit is not saved', data:@study_unit.errors}, status: :unprocessable_entity
+          render json: {
+                        status: 'Error',
+                        message: 'study_unit is not saved',
+                        data: @study_unit.errors
+                        },
+                        status: :unprocessable_entity
         end
       end
 
@@ -37,13 +48,31 @@ module Api
 
         if @study_unit.update_attributes(study_unit_params)
           if study_unit_params[:is_course_completed] == 'true'
+
             StudyUnitService.new(study_unit_params).next_course
-            render json: {status: 'SUCCESS', message: 'study_unit is updated and get next course', data:@study_unit}, status: :ok
+
+            render json: {
+                          status: 'SUCCESS',
+                          message: 'study_unit is updated and get next course',
+                          data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all)
+                          },
+                          status: :ok
+
           else
-          render json: {status: 'SUCCESS', message: 'study_unit is updated', data:@study_unit}, status: :ok
+            render json: {
+                          status: 'SUCCESS',
+                          message: 'study_unit is updated',
+                          data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all)
+                          },
+                          status: :ok
           end
         else
-          render json: {status: 'Error', message: 'study_unit is not updated', data:@study_unit.errors}, status: :unprocessable_entity
+          render json: {
+                        status: 'Error',
+                        message: 'study_unit is not updated',
+                        data:@study_unit.errors
+                        },
+                        status: :unprocessable_entity
         end
       end
 
@@ -51,7 +80,11 @@ module Api
         @study_unit = StudyUnit.find(params[:id])
         @study_unit.destroy
 
-        render json: {status: 'SUCCESS', message: 'study_unit successfully deleted', data:@study_unit}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'study_unit successfully deleted',
+                      },
+                      status: :no_content
       end
 
       private

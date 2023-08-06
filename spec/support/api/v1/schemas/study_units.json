@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "id": { "type": "integer" },
+            "course": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "integer" },
+                "body": { "type": "string" },
+                "title": { "type": "string" }
+              },
+              "required": ["id", "body", "title"]
+            },
+            "is_course_completed": { "type": "boolean" },
+            "talent": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "integer" },
+                "name": { "type": "string" },
+                "is_author": { "type": "boolean" }
+              },
+              "required": ["id", "name", "is_author"]
+             }
+          },
+          "required": ["id", "course", "is_course_completed", "talent"]
+        }
+      ]
+    }
+  },
+  "required": ["data"]
+}
