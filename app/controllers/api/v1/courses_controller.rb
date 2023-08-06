@@ -36,7 +36,7 @@ module Api
           render json: {
                         status: 'Error',
                         message: 'course is not saved',
-                        data:@course.errors
+                        data: @course.errors
                         },
                         status: :unprocessable_entity
         end
@@ -56,7 +56,7 @@ module Api
           render json: {
                         status: 'Error',
                         message: 'course is not updated',
-                        data:@course.errors
+                        data: @course.errors
                         },
                         status: :unprocessable_entity
         end

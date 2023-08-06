@@ -70,7 +70,7 @@ module Api
           render json: {
                         status: 'Error',
                         message: 'study_unit is not updated',
-                        data:@study_unit.errors
+                        data: @study_unit.errors
                         },
                         status: :unprocessable_entity
         end

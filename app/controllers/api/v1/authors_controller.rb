@@ -36,7 +36,7 @@ module Api
           render json: {
                         status: 'Error',
                         message: 'author is not saved',
-                        data:@author.errors
+                        data: @author.errors
                         },
                         status: :unprocessable_entity
         end
@@ -56,7 +56,7 @@ module Api
           render json: {
                         status: 'Error',
                         message: 'author is not updated',
-                        data:@author.errors
+                        data: @author.errors
                         },
                         status: :unprocessable_entity
         end
@@ -64,14 +64,22 @@ module Api
 
       def destroy
         @author = Author.find(params[:id])
-        @author.change_author(params[:new_author_id])
-        @author.destroy
-
-        render json: {
+        if params[:new_author_id].present?
+          @author.change_author(params[:new_author_id])
+          @author.destroy
+          render json: {
+                      status: 'SUCCESS',
+                      message: 'author successfully deleted with taking its courses to another author'
+                      },
+                      status: :no_content
+        else
+          @author.destroy
+          render json: {
                       status: 'SUCCESS',
                       message: 'author successfully deleted'
                       },
                       status: :no_content
+        end
       end
 
       private

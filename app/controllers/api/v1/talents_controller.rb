@@ -46,7 +46,7 @@ module Api
           render json: {
                         status: 'Error',
                         message: 'talent is not saved',
-                        data:@talent.errors
+                        data: @talent.errors
                         },
                         status: :unprocessable_entity
         end
@@ -76,7 +76,7 @@ module Api
           render json: {
                         status: 'Error',
                         message: 'talent is not updated',
-                        data:@talent.errors
+                        data: @talent.errors
                         },
                         status: :unprocessable_entity
         end

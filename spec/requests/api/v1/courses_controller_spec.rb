@@ -19,8 +19,7 @@ describe Api::V1::CoursesController, type: :request do
 
   describe 'Show Action - GET /api/v1/courses/:id' do
     before do
-      author_one = Fabricate(:author)
-      course = Fabricate(:course, author_id: author_one.id)
+      course = Fabricate(:course)
       get api_v1_course_path(course.id)
     end
 
@@ -65,7 +64,7 @@ describe Api::V1::CoursesController, type: :request do
                             learning_path_ids: [lp_one.id, lp_two.id]
                           }
                  }
-                 
+
         post api_v1_courses_path, params: params
 
         expect(assigns(:course).learning_paths.first.id).to eq(lp_one.id)
@@ -164,8 +163,7 @@ describe Api::V1::CoursesController, type: :request do
 
   describe 'Destroy Action - DELETE /api/v1/courses/:id' do
     before do
-      author = Fabricate(:author)
-      course = Fabricate(:course, author_id: author.id)
+      course = Fabricate(:course)
 
       delete api_v1_course_path(course.id)
     end

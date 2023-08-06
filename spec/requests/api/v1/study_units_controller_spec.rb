@@ -96,7 +96,6 @@ describe Api::V1::StudyUnitsController, type: :request do
         params = {
                   study_unit:
                     {
-                      talent_id: @talent.id,
                       course: course_new.id
                     }
                   }

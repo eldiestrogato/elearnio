@@ -36,7 +36,7 @@ module Api
           render json: {
                         status: 'Error',
                         message: 'learning_path is not saved',
-                        data:@learning_path.errors
+                        data: @learning_path.errors
                         },
                         status: :unprocessable_entity
         end
@@ -56,7 +56,7 @@ module Api
           render json: {
                         status: 'Error',
                         message: 'learning_path is not updated',
-                        data:@learning_path.errors
+                        data: @learning_path.errors
                         },
                         status: :unprocessable_entity
         end
