@@ -1,25 +1,41 @@
 require 'rails_helper'
 
 describe Api::V1::StudyLpsController, type: :request do
+  before do
+    course_one = Fabricate(:course)
+    course_two = Fabricate(:course)
+    lp_one = Fabricate(:learning_path) do
+      title 'LP One'
+      lp_courses_attributes [course_id: course_one.id, course_number: 1]
+    end
+    lp_two = Fabricate(:learning_path) do
+      title 'LP Two'
+      lp_courses_attributes [course_id: course_two.id, course_number: 1]
+    end
+    talent = Fabricate(:talent)
+    @study_lp_1 = Fabricate(:study_lp) do
+      learning_path_id lp_one.id
+      talent_id talent.id
+    end
+    @study_lp_2 = Fabricate(:study_lp) do
+      learning_path_id lp_two.id
+      talent_id talent.id
+    end
+    @talent = talent
+    @lp_one = lp_one
+    @lp_two = lp_two
+    @course_one = course_one
+  end
+
   describe 'Index Acton - GET /api/v1/study_lps' do
     it 'responds with ok status' do
+
       get api_v1_study_lps_path
 
       expect(response).to have_http_status :ok
     end
 
     it 'responds with study_lps' do
-      talent = Fabricate(:talent)
-      course = Fabricate(:course)
-      lp = Fabricate(:learning_path) do
-        title 'LP One'
-        lp_courses_attributes [course_id: course.id, course_number: 1]
-      end
-
-      study_lp = Fabricate(:study_lp) do
-        learning_path_id lp.id
-        talent talent.id
-      end
 
       get api_v1_study_lps_path
 
@@ -29,13 +45,7 @@ describe Api::V1::StudyLpsController, type: :request do
 
   describe 'Show Action - GET /api/v1/study_lps/:id' do
     before do
-      course = Fabricate(:course)
-      study_lp = Fabricate(:study_lp) do
-        title 'LP One'
-        lp_courses_attributes [course_id: course.id, course_number: 2]
-      end
-
-      get api_v1_talent_study_lp_path(study_lp.id)
+      get api_v1_talent_study_lp_path(@talent.id, @study_lp_1.id)
     end
 
     it 'responds with ok status' do
@@ -50,21 +60,15 @@ describe Api::V1::StudyLpsController, type: :request do
   describe 'Create Action - POST /api/v1/study_lps' do
     context 'given valid params' do
       before do
-        talent = Fabricate(:talent, name: 'Talent One')
-        course = Fabricate(:course)
-        learning_path = Fabricate(:learning_path) do
-          title 'LP One'
-          lp_courses_attributes [course_id: course.id, course_number: 1]
-        end
         params = {
                   study_lp:
                     {
-                      talent_id: talent.id,
-                      learning_path_id: learning_path.id
+                      talent_id: @talent.id,
+                      learning_path_id: @lp_one.id
                     }
                   }
 
-        post api_v1_talent_study_lps_path, params: params
+        post api_v1_talent_study_lps_path(@talent.id), params: params
       end
 
      it 'responds with created status' do
@@ -77,44 +81,17 @@ describe Api::V1::StudyLpsController, type: :request do
     end
 
     context 'given invalid params' do
-     it 'responds with code and errors in title' do
-       course_one = Fabricate(:course)
-       course_two = Fabricate(:course)
+     it 'responds with code and errors when Learning_path is nil' do
        params = {
                  study_lp:
                    {
-                     title: '',
-                     lp_courses_attributes:
-                     [
-                       {
-                         course_id: course_one.id,
-                         course_number: 1
-                       },
-                       {
-                         course_id: course_two.id,
-                         course_number: 2
-                       }
-                     ]
+                     talent_id: @talent.id,
+                     learning_path_id: nil
                    }
                  }
 
-       post api_v1_talent_study_lp_path, params: params
 
-       expect(response).to have_http_status(:unprocessable_entity)
-       expect(response.body).to match_response_schema('errors', strict: true)
-     end
-
-     it 'responds with code and errors in presence of course' do
-       course = Fabricate(:course)
-       params = {
-                 study_lp:
-                   {
-                     title: 'Some Title',
-                     lp_courses_attributes: []
-                   }
-                 }
-
-       post api_v1_talent_study_lp_path, params: params
+       post api_v1_talent_study_lps_path(@talent.id), params: params
 
        expect(response).to have_http_status(:unprocessable_entity)
        expect(response.body).to match_response_schema('errors', strict: true)
@@ -125,25 +102,16 @@ describe Api::V1::StudyLpsController, type: :request do
   describe 'Update Action - POST /api/v1/study_lps/:id' do
     context 'given valid params' do
       before do
-        course_current = Fabricate(:course)
-        course_new = Fabricate(:course)
-        study_lp = Fabricate(:study_lp) do
-          title 'LP Current title'
-          lp_courses_attributes [course_id: course_current.id, course_number: 2]
-        end
+        talent_new = Fabricate(:talent)
         params = {
                   study_lp:
                     {
-                      title: 'StudyLp New title',
-                      lp_courses_attributes:
-                      [
-                        course_id: course_new.id,
-                        course_number: 5
-                      ]
+                      talent_id: talent_new.id,
+                      learning_path_id: @lp_two.id
                     }
                   }
 
-        patch api_v1_talent_study_lp_path(study_lp.id), params: params
+        patch api_v1_talent_study_lp_path(@talent.id, @study_lp_1.id), params: params
       end
 
      it 'responds with ok status' do
@@ -156,64 +124,26 @@ describe Api::V1::StudyLpsController, type: :request do
     end
 
     context 'given invalid params' do
-      it 'responds with code and errors in title' do
-        course_current = Fabricate(:course)
-        study_lp = Fabricate(:study_lp) do
-          title 'LP Current title'
-          lp_courses_attributes [course_id: course_current.id, course_number: 2]
-        end
+      it 'responds with code and errors in learning_path' do
         params = {
                   study_lp:
                     {
-                      title: '',
-                      lp_courses_attributes:
-                      [
-                        course_id: course_current.id,
-                        course_number: 2
-                      ]
+                      learning_path_id: nil
                     }
                   }
 
-        patch api_v1_talent_study_lp_path(study_lp.id), params: params
+        patch api_v1_talent_study_lp_path(@talent.id, @study_lp_1.id), params: params
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.body).to match_response_schema('errors', strict: true)
       end
 
-      it 'responds with code and errors in presence of course' do
-        course = Fabricate(:course)
-        study_lp = Fabricate(:study_lp) do
-          title 'LP Current title'
-          lp_courses_attributes [course_id: course.id, course_number: 2]
-        end
-        params = {
-                  study_lp:
-                    {
-                      title: 'Some Title',
-                      lp_courses_attributes: [
-                        course_id: nil,
-                        course_number: 1
-                      ]
-                    }
-                  }
-
-        patch api_v1_talent_study_lp_path(study_lp.id), params: params
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to match_response_schema('errors', strict: true)
-      end
      end
   end
 
   describe 'Destroy Action - DELETE /api/v1/study_lps/:id' do
     before do
-      course = Fabricate(:course)
-      study_lp = Fabricate(:study_lp) do
-        title 'LP One'
-        lp_courses_attributes [course_id: course.id, course_number: 2]
-      end
-
-      delete api_v1_talent_study_lp_path(study_lp.id)
+      delete api_v1_talent_study_lp_path(@talent.id, @study_lp_1.id)
     end
 
     it 'responds with no_content status' do
