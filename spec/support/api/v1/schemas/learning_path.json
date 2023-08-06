@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "courses_of_lp": {
+           "type": "array",
+            "items":  [
+              {
+               "type": "object",
+               "properties": {
+                 "id": { "type": "integer" },
+                 "course" : {
+                   "type": "object",
+                   "properties": {
+                       "id": { "type": "integer" },
+                       "title": { "type": "string" },
+                       "body": { "type": "string" },
+                       "author": {
+                         "type": "object",
+                         "properties": {
+                           "id": { "type": "integer" },
+                           "name": { "type": "string" }
+                         },
+                         "required": ["id", "name"]
+                        }
+                  },
+                   "required": ["id", "author", "body", "title"]
+                 },
+                 "course_number": { "type": "integer" }
+               },
+               "required": ["id", "course", "course_number"]
+              }
+            ]
+         },
+        "title": { "type": "string" }
+      },
+      "required": ["id", "courses_of_lp", "title"]
+    }
+  },
+  "required": ["data"]
+}

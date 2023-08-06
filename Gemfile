@@ -23,7 +23,18 @@ gem 'dotenv-rails', require: 'dotenv/rails-now'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # RSpec
+  gem 'rspec-rails', '~> 5.0.0'
+  # Test JSON validator
+  gem "json_matchers"
+  # Test objects-generator
+  gem 'fabrication'
+  # For access to instances in controller
+  gem 'rails-controller-testing'
+  # DB cleaner
+  gem 'database_cleaner-active_record'
 end
+
 
 group :development do
   gem 'listen', '~> 3.2'

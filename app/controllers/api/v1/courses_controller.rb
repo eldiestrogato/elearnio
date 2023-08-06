@@ -26,9 +26,19 @@ module Api
         @course = Course.new(course_params)
 
         if @course.save
-          render json: {status: 'SUCCESS', message: 'course is saved', data:@course}, status: :ok
+          render json: {
+                        status: 'SUCCESS',
+                        message: 'course is saved',
+                        data: CourseBlueprint.render_as_json(@course, view: :all)
+                        },
+                        status: :created
         else
-          render json: {status: 'Error', message: 'course is not saved', data:@course.errors}, status: :unprocessable_entity
+          render json: {
+                        status: 'Error',
+                        message: 'course is not saved',
+                        data:@course.errors
+                        },
+                        status: :unprocessable_entity
         end
       end
 
@@ -36,9 +46,19 @@ module Api
         @course = Course.find(params[:id])
 
         if @course.update_attributes(course_params)
-          render json: {status: 'SUCCESS', message: 'course is updated', data:@course}, status: :ok
+          render json: {
+                        status: 'SUCCESS',
+                        message: 'course is updated',
+                        data: CourseBlueprint.render_as_json(@course, view: :all)
+                        },
+                        status: :ok
         else
-          render json: {status: 'Error', message: 'course is not updated', data:@course.errors}, status: :unprocessable_entity
+          render json: {
+                        status: 'Error',
+                        message: 'course is not updated',
+                        data:@course.errors
+                        },
+                        status: :unprocessable_entity
         end
       end
 
@@ -46,7 +66,11 @@ module Api
         @course = Course.find(params[:id])
         @course.destroy
 
-        render json: {status: 'SUCCESS', message: 'course successfully deleted', data:@course}, status: :ok
+        render json: {
+                      status: 'SUCCESS',
+                      message: 'course successfully deleted'
+                      },
+                      status: :no_content
       end
 
       private
