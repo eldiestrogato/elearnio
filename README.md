@@ -22,11 +22,11 @@ Requirements:
 next course in the learning path
 
 Definition of done for this challenge:
-● Client can CRUD the data on the API
-● Client can mark a course completed for a talent
-● No errors
-● Rspec for testing
-● Documentation where applicable
+- Client can CRUD the data on the API
+- Client can mark a course completed for a talent
+- No errors
+- Rspec for testing
+- Documentation where applicable
 
 # INSTALLATION
 
