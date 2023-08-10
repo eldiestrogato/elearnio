@@ -39,21 +39,21 @@ Definition of done for this challenge:
 # API ENDPOINTS
 
 - Authors endpoint
-> GET /api/v1/authors.json # JSON response with all authors of courses
-> GET /api/v1/authors/:id.json # JSON response with author of courses by id
-> POST /api/v1/authors.json # To create a new author. Data scheme in params:
+* GET /api/v1/authors.json # JSON response with all authors of courses
+* GET /api/v1/authors/:id.json # JSON response with author of courses by id
+* POST /api/v1/authors.json # To create a new author. Data scheme in params:
 {
     "author": {
         "name": "Author New"
     }
 }
-> POST /api/v1/authors/:id.json # To update an author by id. Data scheme in params:
+* POST /api/v1/authors/:id.json # To update an author by id. Data scheme in params:
 {
     "author": {
         "name": "Author New"
     }
 }
-> DELETE /api/v1/authors/:id.json # To destroy an author by id. You must send in params data with ID of another author for courses of  author that will be destroyed. Data scheme in params:
+* DELETE /api/v1/authors/:id.json # To destroy an author by id. You must send in params data with ID of another author for courses of  author that will be destroyed. Data scheme in params:
 {
     "new_author_id": "ID OF NEW AUTHOR"
 }
