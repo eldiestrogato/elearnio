@@ -41,7 +41,7 @@ Definition of done for this challenge:
 - Author's endpoints
     * GET /api/v1/authors.json # JSON response with all authors of courses
     * GET /api/v1/authors/:id.json # JSON response with author of courses by id
-    * POST /api/v1/authors.json # To create a new author. Data scheme in params:
+    * POST /api/v1/authors.json # To create new author. Data scheme example of params:
     ```
     {
         "author": {
@@ -49,7 +49,7 @@ Definition of done for this challenge:
         }
     }
     ```
-    * POST /api/v1/authors/:id.json # To update an author by id. Data scheme in params:
+    * POST /api/v1/authors/:id.json # To update author by id. Data scheme example of params:
     ```
     {
         "author": {
@@ -57,7 +57,7 @@ Definition of done for this challenge:
         }
     }
     ```
-    * DELETE /api/v1/authors/:id.json # To destroy an author by id. You must send in params data with ID of another author for courses of  author that will be destroyed. Data scheme in params:
+    * DELETE /api/v1/authors/:id.json # To destroy author by id. You must send in params data with ID of another author for courses of  author that will be destroyed. Data scheme example of params:
     ```
     {
         "new_author_id": "ID OF NEW AUTHOR"
@@ -67,7 +67,7 @@ Definition of done for this challenge:
 - Course's endpoints
     * GET /api/v1/courses.json # JSON response with all courses
     * GET /api/v1/courses/:id.json # JSON response with course by id
-    * POST /api/v1/courses.json # To create a new course. Send in params title,body,ID of it author, IDs of associated Learning Paths is optional. Data scheme in params:
+    * POST /api/v1/courses.json # To create new course. Send in params title,body,ID of it author, IDs of associated Learning Paths is optional. Data scheme example of params:
     ```
       {
           "course": {
@@ -78,7 +78,7 @@ Definition of done for this challenge:
           }
       }
     ```
-    * POST /api/v1/courses/:id.json # To update a course by id. Data scheme in params:
+    * POST /api/v1/courses/:id.json # To update course by id. Data scheme example of params:
     ```
       {
           "course": {
@@ -89,12 +89,111 @@ Definition of done for this challenge:
           }
       }
     ```
-    * DELETE /api/v1/courses/:id.json # To destroy a course by id.
+    * DELETE /api/v1/courses/:id.json # To destroy course by id.
 
+- Learning Path's endpoints
+    * GET /api/v1/learning_paths.json # JSON response with all learning paths
+    * GET /api/v1/learning_paths/:id.json # JSON response with learning path by id
+    * POST /api/v1/learning_paths.json # To create new learning path. Send in params ID of at least 1 course of this Learning Path and it order number. Data scheme example of params:
+    ```
+      {
+          "learning_path": {
+              "title": "Learning Path of Math",
+              "lp_courses_attributes": [
+                  {
+                      "course_id": 1,
+                      "course_number": 1
+                  },
+                  {
+                      "course_id": 2,
+                      "course_number": 2
+                  },
+                  {
+                      "course_id": 3,
+                      "course_number": 3
+                  },
+                  {
+                      "course_id": 4,
+                      "course_number": 4
+                  }
+              ]
+          }
+      }
+    ```
+    * POST /api/v1/learning_paths/:id.json # To update learning path by id. Data scheme example of params:
+    ```
+      {
+          "learning_path": {
+              "title": "Learning Path of English",
+              "lp_courses_attributes": [
+                  {
+                      "course_id": 8,
+                      "course_number": 1
+                  },
+                  {
+                      "course_id": 10,
+                      "course_number": 2
+                  },
+                  {
+                      "course_id": 12,
+                      "course_number": 4
+                  },
+                  {
+                      "course_id": 15,
+                      "course_number": 3
+                  }
+              ]
+          }
+      }
+    ```
+    * DELETE /api/v1/learning_paths/:id.json # To destroy learning path by id
+ 
+- Talent's endpoints
+    * GET /api/v1/talents.json # JSON response with all talents
+    * GET /api/v1/talents/:id.json # JSON response with talent by id
+    * POST /api/v1/talents.json # To create a new talent. Send in params name and option if it is an author (It will create record with author in Author table). Data scheme example of params:
+    ```
+      {
+          "talent": {
+              "name": "Talent One",
+              "is_author": "false"
+          }
+      }
+    ```
+    * POST /api/v1/talents/:id.json # To update talent by id. Data scheme example of params:
+    ```
+     {
+          "talent": {
+              "name": "Talent One",
+              "is_author": "false"
+          }
+      }
+    ```
+    * DELETE /api/v1/talents/:id.json # To destroy talent by id
 
-
-
-
+- study_lps's endpoints (Learning paths that 've been given to talent)
+    * GET /api/v1/study_lps.json # JSON response with all study learning paths
+    * GET /api/v1/talents/:id/study_lps/:id.json # JSON response with study learning path of talent by id and talent id
+    * POST /api/v1/talents/:id/study_lp.json # To create a new study learning path. Send in params talent id and learning path id. Data scheme example of params:
+    ```
+      {
+          "study_lp": {
+              "talent_id": 1,
+              "learning_path_id": 23
+          }
+      }
+    ```
+    > After creation Talent will get its first course from learning path
+    * POST /api/v1/talents/:id/study_lps/:id.jsonn # To update study learning path by id and talent id. Data scheme example of params:
+    ```
+      {
+          "study_lp": {
+              "talent_id": 1,
+              "learning_path_id": 50
+          }
+      }
+    ```
+    * DELETE /api/v1/talents/:id.json # To destroy talent by id
 
 
 
