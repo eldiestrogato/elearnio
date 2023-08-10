@@ -27,7 +27,7 @@ module Api
 
         if @talent.save
           if @talent.is_author?
-            Author.create(name: @talent.name)
+            Author.find_or_create_by(name: @talent.name)
             render json: {
                           status: 'SUCCESS',
                           message: 'talent is saved and became an author',
@@ -57,7 +57,7 @@ module Api
 
         if @talent.update_attributes(talent_params)
           if @talent.is_author?
-            Author.create(name: @talent.name)
+            Author.find_or_create_by(name: @talent.name)
             render json: {
                           status: 'SUCCESS',
                           message: 'talent is updated and became an author',
