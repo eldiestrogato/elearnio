@@ -28,10 +28,16 @@ Definition of done for this challenge:
 - Rspec for testing
 - Documentation where applicable
 
+# Prerequisites
+
+- Ruby 2.7.0
+- Rails 6.0.6
+- Postgresql '>= 0.18', '< 2.0'
+
 # INSTALLATION
 
--
--
+- install Ruby 2.7.0
+- install Rails 6.0.6
 -
 -
 -
@@ -171,7 +177,7 @@ Definition of done for this challenge:
     ```
     * DELETE /api/v1/talents/:id.json # To destroy talent by id
 
-- study_lp's endpoints (Learning paths that 've been given to talent)
+- Study_lp's endpoints (Learning paths that 've been given to talent)
     * GET /api/v1/study_lps.json # JSON response with all study learning paths
     * GET /api/v1/talents/:id/study_lps/:id.json # JSON response with study learning path of talent by id and talent id
     * POST /api/v1/talents/:id/study_lp.json # To create a new study learning path. Send in params talent id and learning path id. Data scheme example of params:
@@ -195,7 +201,7 @@ Definition of done for this challenge:
     ```
     * DELETE /api/v1/talents/:id/study_lps/:id.json # To destroy study learning path by id and talent id
 
-- study_unit's endpoints (Courses of those learning paths that 've been given to talent)
+- Study_unit's endpoints (Courses of those learning paths that 've been given to talent)
     * GET /api/v1/study_units.json # JSON response with all study units
     * GET /api/v1/talents/:id/study_units/:id.json # JSON response with study unit of talent by id and talent id
     * POST /api/v1/talents/:id/study_units.json # To create a new study unit. Send in params course id and as option is it completed or not. Data scheme example of params:
