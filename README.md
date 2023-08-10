@@ -49,7 +49,7 @@ Definition of done for this challenge:
         }
     }
     ```
-    * POST /api/v1/authors/:id.json # To update author by id. Data scheme example of params:
+    * PATCH /api/v1/authors/:id.json # To update author by id. Data scheme example of params:
     ```
     {
         "author": {
@@ -78,7 +78,7 @@ Definition of done for this challenge:
           }
       }
     ```
-    * POST /api/v1/courses/:id.json # To update course by id. Data scheme example of params:
+    * PATCH /api/v1/courses/:id.json # To update course by id. Data scheme example of params:
     ```
       {
           "course": {
@@ -120,7 +120,7 @@ Definition of done for this challenge:
           }
       }
     ```
-    * POST /api/v1/learning_paths/:id.json # To update learning path by id. Data scheme example of params:
+    * PATCH /api/v1/learning_paths/:id.json # To update learning path by id. Data scheme example of params:
     ```
       {
           "learning_path": {
@@ -160,7 +160,7 @@ Definition of done for this challenge:
           }
       }
     ```
-    * POST /api/v1/talents/:id.json # To update talent by id. Data scheme example of params:
+    * PATCH /api/v1/talents/:id.json # To update talent by id. Data scheme example of params:
     ```
      {
           "talent": {
@@ -171,7 +171,7 @@ Definition of done for this challenge:
     ```
     * DELETE /api/v1/talents/:id.json # To destroy talent by id
 
-- study_lps's endpoints (Learning paths that 've been given to talent)
+- study_lp's endpoints (Learning paths that 've been given to talent)
     * GET /api/v1/study_lps.json # JSON response with all study learning paths
     * GET /api/v1/talents/:id/study_lps/:id.json # JSON response with study learning path of talent by id and talent id
     * POST /api/v1/talents/:id/study_lp.json # To create a new study learning path. Send in params talent id and learning path id. Data scheme example of params:
@@ -184,7 +184,7 @@ Definition of done for this challenge:
       }
     ```
     > After creation Talent will get its first course from learning path
-    * POST /api/v1/talents/:id/study_lps/:id.jsonn # To update study learning path by id and talent id. Data scheme example of params:
+    * PATCH /api/v1/talents/:id/study_lps/:id.json # To update study learning path by id and talent id. Data scheme example of params:
     ```
       {
           "study_lp": {
@@ -193,40 +193,39 @@ Definition of done for this challenge:
           }
       }
     ```
-    * DELETE /api/v1/talents/:id.json # To destroy talent by id
+    * DELETE /api/v1/talents/:id/study_lps/:id.json # To destroy study learning path by id and talent id
 
-
-
-
+- study_unit's endpoints (Courses of those learning paths that 've been given to talent)
+    * GET /api/v1/study_units.json # JSON response with all study units
+    * GET /api/v1/talents/:id/study_units/:id.json # JSON response with study unit of talent by id and talent id
+    * POST /api/v1/talents/:id/study_units.json # To create a new study unit. Send in params course id and as option is it completed or not. Data scheme example of params:
+    ```
+      {
+          "study_unit": {
+              "course_id": 1,
+              "is_course_completed": "false"
+          }
+      }
+    ```
+    > Course for one Talent must be unique
+    * PATCH /api/v1/talents/:id/study_units/:id.json # To update study unit by id. Data scheme example of params:
+    ```
+      {
+          "study_unit": {
+              "course_id": 1,
+              "is_course_completed": "true"
+          }
+      }
+    ```
+   > If send in params  "is_course_completed": "true" Talent will get next course from its learning path according to order (but only if other is completed!) until courses exists
+    * DELETE /api/v1/talents/:id/study_units/:id.json # To destroy study unit by id and talent id
 
 # TEST
 
-RSpec CRUD tests are implemented and successfully passed. Run in project folder to check:
+RSpec only CRUD tests of controllers are implemented and successfully passed. Run in project folder to check:
 - rspec spec/requests/api/v1/authors_controller_spec.rb
 - rspec spec/requests/api/v1/courses_controller_spec.rb
 - rspec spec/requests/api/v1/learning_paths_controller_spec.rb
 - rspec spec/requests/api/v1/study_lps_controller_spec.rb
 - rspec spec/requests/api/v1/study_units_controller_spec.rb
 - rspec spec/requests/api/v1/talents_controller_spec.rb
-
-
-
-
-
-
-
-------------------------------------------
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* Services (job queues, cache servers, search engines, etc.)
-
