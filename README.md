@@ -45,7 +45,7 @@ Definition of done for this challenge:
     ```
     {
         "author": {
-            "name": "Author New"
+            "name": "AUTHOR's NAME"
         }
     }
     ```
@@ -53,7 +53,7 @@ Definition of done for this challenge:
     ```
     {
         "author": {
-            "name": "Author New"
+            "name": "ANOTHER AUTHOR's NAME"
         }
     }
     ```
@@ -63,6 +63,42 @@ Definition of done for this challenge:
         "new_author_id": "ID OF NEW AUTHOR"
     }
     ```
+
+- Course's endpoints
+    * GET /api/v1/courses.json # JSON response with all courses
+    * GET /api/v1/courses/:id.json # JSON response with course by id
+    * POST /api/v1/courses.json # To create a new course. Send in params title,body,ID of it author, IDs of associated Learning Paths is optional. Data scheme in params:
+    ```
+      {
+          "course": {
+              "title": "Course 1",
+              "body": "Course number 1 interesting", 
+              "author_id": 1, 
+              "learning_path_ids":[]
+          }
+      }
+    ```
+    * POST /api/v1/courses/:id.json # To update a course by id. Data scheme in params:
+    ```
+      {
+          "course": {
+              "title": "Course 1",
+              "body": "Course number 1 interesting", 
+              "author_id": 1, 
+              "learning_path_ids":[]
+          }
+      }
+    ```
+    * DELETE /api/v1/courses/:id.json # To destroy a course by id.
+
+
+
+
+
+
+
+
+
 
 # TEST
 
