@@ -37,10 +37,14 @@ Definition of done for this challenge:
 # INSTALLATION
 
 - install Ruby 2.7.0
+- install bundler
 - install Rails 6.0.6
--
--
--
+- clone this project to your PC
+- install postgresql and create User: "talent", password: "password" and database "talent_development"
+- rename ".env.example" file in project folder to ".env"
+- run in terminal in project folder "bundle"
+- run in terminal in project folder "rails db:create", "rails db:migrate"
+- run in terminal in project folder "rails s" to start app
 
 # API ENDPOINTS
 
