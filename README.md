@@ -48,7 +48,7 @@ Definition of done for this challenge:
 
 # API ENDPOINTS
 
-- Author's endpoints
+- REST /authors
     * GET /api/v1/authors.json # JSON response with all authors of courses
     * GET /api/v1/authors/:id.json # JSON response with author of courses by id
     * POST /api/v1/authors.json # To create new author. Data scheme example of params:
@@ -74,7 +74,7 @@ Definition of done for this challenge:
     }
     ```
 
-- Course's endpoints
+-  REST /courses
     * GET /api/v1/courses.json # JSON response with all courses
     * GET /api/v1/courses/:id.json # JSON response with course by id
     * POST /api/v1/courses.json # To create new course. Send in params title,body,ID of it author, IDs of associated Learning Paths is optional. Data scheme example of params:
@@ -101,7 +101,7 @@ Definition of done for this challenge:
     ```
     * DELETE /api/v1/courses/:id.json # To destroy course by id.
 
-- Learning Path's endpoints
+-  REST /learning_paths
     * GET /api/v1/learning_paths.json # JSON response with all learning paths
     * GET /api/v1/learning_paths/:id.json # JSON response with learning path by id
     * POST /api/v1/learning_paths.json # To create new learning path. Send in params ID of at least 1 course of this Learning Path and it order number. Data scheme example of params:
@@ -158,7 +158,7 @@ Definition of done for this challenge:
     ```
     * DELETE /api/v1/learning_paths/:id.json # To destroy learning path by id
  
-- Talent's endpoints
+- REST /talents
     * GET /api/v1/talents.json # JSON response with all talents
     * GET /api/v1/talents/:id.json # JSON response with talent by id
     * POST /api/v1/talents.json # To create a new talent. Send in params name and option if it is an author (It will create record with author in Author table). Data scheme example of params:
@@ -181,7 +181,7 @@ Definition of done for this challenge:
     ```
     * DELETE /api/v1/talents/:id.json # To destroy talent by id
 
-- Study_lp's endpoints (Learning paths that 've been given to talent)
+- REST /study_lps (Learning paths that 've been given to talent)
     * GET /api/v1/study_lps.json # JSON response with all study learning paths
     * GET /api/v1/talents/:id/study_lps/:id.json # JSON response with study learning path of talent by id and talent id
     * POST /api/v1/talents/:id/study_lp.json # To create a new study learning path. Send in params talent id and learning path id. Data scheme example of params:
@@ -205,7 +205,7 @@ Definition of done for this challenge:
     ```
     * DELETE /api/v1/talents/:id/study_lps/:id.json # To destroy study learning path by id and talent id
 
-- Study_unit's endpoints (Courses of those learning paths that 've been given to talent)
+- REST /study_units (Courses of those learning paths that 've been given to talent)
     * GET /api/v1/study_units.json # JSON response with all study units
     * GET /api/v1/talents/:id/study_units/:id.json # JSON response with study unit of talent by id and talent id
     * POST /api/v1/talents/:id/study_units.json # To create a new study unit. Send in params course id and as option is it completed or not. Data scheme example of params:
