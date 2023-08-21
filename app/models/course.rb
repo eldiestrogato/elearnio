@@ -1,6 +1,6 @@
 class Course < ApplicationRecord
-  has_many :lp_courses, dependent: :destroy
-  has_many :learning_paths, through: :lp_courses
+  has_many :learning_path_courses, dependent: :destroy
+  has_many :learning_paths, through: :learning_path_courses
   has_many :study_units, dependent: :destroy
   belongs_to :author
 

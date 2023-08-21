@@ -10,7 +10,7 @@ describe StudyUnitService, type: :request do
     @course_three = course_three
     lp_one = Fabricate(:learning_path) do
       title 'LP Test'
-      lp_courses_attributes [
+      learning_path_courses_attributes [
                               {
                                 course_id: course_one.id,
                                 course_number: 1
@@ -25,7 +25,7 @@ describe StudyUnitService, type: :request do
                               }
                             ]
       end
-    Fabricate(:study_lp) do
+    Fabricate(:study_learning_path) do
         learning_path lp_one
         talent talent
       end

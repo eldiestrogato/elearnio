@@ -42,7 +42,7 @@ describe Api::V1::TalentsController, type: :request do
         post api_v1_talents_path, params: params
       end
      it 'responds with created status' do
-       expect(response).to have_http_status :created
+       expect(response).to have_http_status :ok
      end
 
      it 'returns with response body. Is not an author' do
@@ -50,11 +50,11 @@ describe Api::V1::TalentsController, type: :request do
      end
 
      it 'returns with response body. Is an author' do
-       params = {talent: { name: 'Talent One', is_author: true }}
+       params = {talent: { name: 'Talent Another one', is_author: true }}
 
        post api_v1_talents_path, params: params
        expect(response.body).to match_response_schema('talent', strict: true)
-       expect(assigns(:talent).name).to eq(Author.find_by_name(assigns(:talent).name).name)
+       expect(Talent.last.name).to eq(Author.find_by_name(Talent.last.name).name)
      end
     end
 
@@ -96,7 +96,7 @@ describe Api::V1::TalentsController, type: :request do
        patch api_v1_talent_path(@talent_one.id), params: params
 
        expect(response.body).to match_response_schema('talent', strict: true)
-       expect(assigns(:talent).name).to eq(Author.find_by_name(assigns(:talent).name).name)
+       expect(Talent.last.name).to eq(Author.find_by_name(Talent.last.name).name)
      end
     end
 

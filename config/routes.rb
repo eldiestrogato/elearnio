@@ -7,10 +7,10 @@ Rails.application.routes.draw do
       resources :authors
       resources :talents do
         resources :study_units, except: :index
-        resources :study_lps, except: :index
+        resources :study_learning_paths, except: :index
       end
       resources :study_units, only: :index
-      resources :study_lps, only: :index
+      resources :study_learning_paths, only: :index
     end
   end
 end

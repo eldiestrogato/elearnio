@@ -5,15 +5,15 @@ describe Api::V1::LearningPathsController, type: :request do
     course = Fabricate(:course)
     lp_one = Fabricate(:learning_path) do
       title 'LP One'
-      lp_courses_attributes [course_id: course.id, course_number: 2]
+      learning_path_courses_attributes [course_id: course.id, course_number: 2]
     end
     lp_two = Fabricate(:learning_path) do
       title 'LP Two'
-      lp_courses_attributes [course_id: course.id, course_number: 1]
+      learning_path_courses_attributes [course_id: course.id, course_number: 1]
     end
     @lp_test = Fabricate(:learning_path) do
       title 'LP TEST'
-      lp_courses_attributes [course_id: course.id, course_number: 1]
+      learning_path_courses_attributes [course_id: course.id, course_number: 1]
     end
     @course = course
   end
@@ -55,7 +55,7 @@ describe Api::V1::LearningPathsController, type: :request do
                   learning_path:
                     {
                       title: 'LearningPath One',
-                      lp_courses_attributes:
+                      learning_path_courses_attributes:
                       [
                         {
                           course_id: course_one.id,
@@ -89,7 +89,7 @@ describe Api::V1::LearningPathsController, type: :request do
                  learning_path:
                    {
                      title: '',
-                     lp_courses_attributes:
+                     learning_path_courses_attributes:
                      [
                        {
                          course_id: course_one.id,
@@ -114,7 +114,7 @@ describe Api::V1::LearningPathsController, type: :request do
                  learning_path:
                    {
                      title: 'Some Title',
-                     lp_courses_attributes: []
+                     learning_path_courses_attributes: []
                    }
                  }
 
@@ -133,13 +133,13 @@ describe Api::V1::LearningPathsController, type: :request do
         course_new = Fabricate(:course)
         learning_path = Fabricate(:learning_path) do
           title 'LP Current title'
-          lp_courses_attributes [course_id: course_current.id, course_number: 2]
+          learning_path_courses_attributes [course_id: course_current.id, course_number: 2]
         end
         params = {
                   learning_path:
                     {
                       title: 'LearningPath New title',
-                      lp_courses_attributes:
+                      learning_path_courses_attributes:
                       [
                         course_id: course_new.id,
                         course_number: 5
@@ -164,13 +164,13 @@ describe Api::V1::LearningPathsController, type: :request do
         course_current = Fabricate(:course)
         learning_path = Fabricate(:learning_path) do
           title 'LP Current title'
-          lp_courses_attributes [course_id: course_current.id, course_number: 2]
+          learning_path_courses_attributes [course_id: course_current.id, course_number: 2]
         end
         params = {
                   learning_path:
                     {
                       title: '',
-                      lp_courses_attributes:
+                      learning_path_courses_attributes:
                       [
                         course_id: course_current.id,
                         course_number: 2
@@ -189,7 +189,7 @@ describe Api::V1::LearningPathsController, type: :request do
                   learning_path:
                     {
                       title: 'Some Title',
-                      lp_courses_attributes: [
+                      learning_path_courses_attributes: [
                         course_id: nil,
                         course_number: 1
                       ]

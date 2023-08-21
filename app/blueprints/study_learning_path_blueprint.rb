@@ -1,4 +1,4 @@
-class StudyLpBlueprint < Blueprinter::Base
+class StudyLearningPathBlueprint < Blueprinter::Base
   identifier :id
   association :learning_path, name: :learning_path, blueprint: LearningPathBlueprint
 

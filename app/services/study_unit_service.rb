@@ -20,7 +20,7 @@ class StudyUnitService
   # give the next course, but only if other is completed
   # (On each Learning Path if the Course is belongs to several "LP-s")
   def next_course
-    talent.study_lps.each do |talent_lp|
+    talent.study_learning_paths.each do |talent_lp|
       check_course(talent_lp.learning_path_id)
     end
   end
@@ -31,7 +31,7 @@ class StudyUnitService
   def check_course(lp_id)
     lp_courses = fetch_lp_courses(lp_id)
     talent_courses_of_lp = talent_courses.where(course_id: lp_courses.pluck(:id))
-    
+
     if talent_courses_of_lp.where(is_course_completed: false).empty?
       get_course(lp_courses)
     else

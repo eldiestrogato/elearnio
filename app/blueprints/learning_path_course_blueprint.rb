@@ -1,4 +1,4 @@
-class LpCourseBlueprint < Blueprinter::Base
+class LearningPathCourseBlueprint < Blueprinter::Base
   identifier :id
 
   field :course_number

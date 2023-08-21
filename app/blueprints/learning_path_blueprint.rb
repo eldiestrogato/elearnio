@@ -3,6 +3,6 @@ class LearningPathBlueprint < Blueprinter::Base
   field :title
 
   view :all do
-    association :lp_courses, name: :courses_of_lp, blueprint: LpCourseBlueprint
+    association :learning_path_courses, name: :courses_of_learning_path, blueprint: LearningPathCourseBlueprint
   end
 end

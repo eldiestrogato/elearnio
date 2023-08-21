@@ -53,8 +53,8 @@ describe Api::V1::CoursesController, type: :request do
     context 'given valid params with learning paths' do
       it 'returns adding to associated Learning Paths' do
         course = Fabricate(:course)
-        lp_one = Fabricate(:learning_path, title: 'LP One', lp_courses_attributes: [course_id: course.id, course_number: 1])
-        lp_two = Fabricate(:learning_path, title: 'LP Two', lp_courses_attributes: [course_id: course.id, course_number: 1])
+        lp_one = Fabricate(:learning_path, title: 'LP One', learning_path_courses_attributes: [course_id: course.id, course_number: 1])
+        lp_two = Fabricate(:learning_path, title: 'LP Two', learning_path_courses_attributes: [course_id: course.id, course_number: 1])
         author = Fabricate(:author)
         params = {
                   course: {
@@ -66,9 +66,8 @@ describe Api::V1::CoursesController, type: :request do
                  }
 
         post api_v1_courses_path, params: params
-
-        expect(assigns(:course).learning_paths.first.id).to eq(lp_one.id)
-        expect(assigns(:course).learning_paths.last.id).to eq(lp_two.id)
+        expect(Course.last.learning_paths.first.id).to eq(lp_one.id)
+        expect(Course.last.learning_paths.last.id).to eq(lp_two.id)
       end
     end
 
