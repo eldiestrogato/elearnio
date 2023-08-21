@@ -4,41 +4,22 @@ module Api
 
       def index
         @courses = Course.all
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'Loaded Courses',
-                      data: CourseBlueprint.render_as_json(@courses, view: :all)
-                      },
-                      status: :ok
+        render json: { data: CourseBlueprint.render_as_json(@courses, view: :all) }
       end
 
       def show
         @course = Course.find(params[:id])
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'Loaded Course',
-                      data: CourseBlueprint.render_as_json(@course, view: :all)
-                      },
-                      status: :ok
+        render json: { data: CourseBlueprint.render_as_json(@course, view: :all) }
       end
 
       def create
         @course = Course.new(course_params)
 
         if @course.save
-          render json: {
-                        status: 'SUCCESS',
-                        message: 'course is saved',
-                        data: CourseBlueprint.render_as_json(@course, view: :all)
-                        },
-                        status: :created
+          render json: { data: CourseBlueprint.render_as_json(@course, view: :all) }
         else
-          render json: {
-                        status: 'Error',
-                        message: 'course is not saved',
-                        data: @course.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: @course.errors },
+                         status: :unprocessable_entity
         end
       end
 
@@ -46,19 +27,10 @@ module Api
         @course = Course.find(params[:id])
 
         if @course.update_attributes(course_params)
-          render json: {
-                        status: 'SUCCESS',
-                        message: 'course is updated',
-                        data: CourseBlueprint.render_as_json(@course, view: :all)
-                        },
-                        status: :ok
+          render json: { data: CourseBlueprint.render_as_json(@course, view: :all) }
         else
-          render json: {
-                        status: 'Error',
-                        message: 'course is not updated',
-                        data: @course.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: @course.errors },
+                         status: :unprocessable_entity
         end
       end
 
@@ -66,11 +38,7 @@ module Api
         @course = Course.find(params[:id])
         @course.destroy
 
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'course successfully deleted'
-                      },
-                      status: :no_content
+        render json: {}, status: :no_content
       end
 
       private

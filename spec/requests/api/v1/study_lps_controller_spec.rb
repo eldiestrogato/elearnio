@@ -14,12 +14,12 @@ describe Api::V1::StudyLpsController, type: :request do
     end
     talent = Fabricate(:talent)
     @study_lp_1 = Fabricate(:study_lp) do
-      learning_path_id lp_one.id
-      talent_id talent.id
+      learning_path lp_one
+      talent talent
     end
     @study_lp_2 = Fabricate(:study_lp) do
-      learning_path_id lp_two.id
-      talent_id talent.id
+      learning_path lp_two
+      talent talent
     end
     @talent = talent
     @lp_one = lp_one

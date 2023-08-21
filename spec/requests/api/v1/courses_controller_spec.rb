@@ -36,13 +36,13 @@ describe Api::V1::CoursesController, type: :request do
     context 'given valid params' do
       before do
         author = Fabricate(:author)
-        params = {course: { title: 'Course One', body: 'Some body is here', author_id: author.id}}
+        params = { course: { title: 'Course One', body: 'Some body is here', author_id: author.id } }
 
         post api_v1_courses_path, params: params
       end
 
      it 'responds with created status' do
-       expect(response).to have_http_status :created
+       expect(response).to have_http_status :ok
      end
 
      it 'returns with response body' do
@@ -75,7 +75,7 @@ describe Api::V1::CoursesController, type: :request do
     context 'given invalid params' do
      it 'responds with code and errors in title' do
        author = Fabricate(:author)
-       params = {course: { title: '', body: 'Some body is here', author_id: author.id}}
+       params = { course: { title: '', body: 'Some body is here', author_id: author.id } }
 
        post api_v1_courses_path, params: params
 
@@ -85,7 +85,7 @@ describe Api::V1::CoursesController, type: :request do
 
      it 'responds with code and errors in body' do
        author = Fabricate(:author)
-       params = {course: { title: 'Course One', body: '', author_id: author.id}}
+       params = { course: { title: 'Course One', body: '', author_id: author.id } }
 
        post api_v1_courses_path, params: params
 
@@ -95,7 +95,7 @@ describe Api::V1::CoursesController, type: :request do
 
      it 'responds with code and errors in presence of author' do
        author = Fabricate(:author)
-       params = {course: { title: 'Course One', body: 'Some body is here'}}
+       params = { course: { title: 'Course One', body: 'Some body is here' } }
 
        post api_v1_courses_path, params: params
 
@@ -111,7 +111,7 @@ describe Api::V1::CoursesController, type: :request do
         author_one = Fabricate(:author)
         author_two = Fabricate(:author)
         course = Fabricate(:course, author: author_one)
-        params = {course: { title: 'Course Two', body: 'Another body is here', author_id: author_two.id}}
+        params = { course: { title: 'Course Two', body: 'Another body is here', author_id: author_two.id } }
 
         patch api_v1_course_path(course.id), params: params
       end
@@ -128,7 +128,7 @@ describe Api::V1::CoursesController, type: :request do
     context 'given invalid params' do
       it 'responds with code and errors in title' do
         course = Fabricate(:course)
-        params = {course: { title: ''}}
+        params = { course: { title: '' } }
 
         patch api_v1_course_path(course.id), params: params
 
@@ -138,7 +138,7 @@ describe Api::V1::CoursesController, type: :request do
 
       it 'responds with code and errors in body' do
         course = Fabricate(:course)
-        params = {course: { body: ''}}
+        params = { course: { body: '' } }
 
         patch api_v1_course_path(course.id), params: params
 
@@ -148,7 +148,7 @@ describe Api::V1::CoursesController, type: :request do
 
       it 'responds with code and errors in presence of author' do
         course = Fabricate(:course)
-        params = {course: { author_id: nil}}
+        params = { course: { author_id: nil } }
 
         patch api_v1_course_path(course.id), params: params
 

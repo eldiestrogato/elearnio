@@ -31,6 +31,7 @@ class StudyUnitService
   def check_course(lp_id)
     lp_courses = fetch_lp_courses(lp_id)
     talent_courses_of_lp = talent_courses.where(course_id: lp_courses.pluck(:id))
+    
     if talent_courses_of_lp.where(is_course_completed: false).empty?
       get_course(lp_courses)
     else
@@ -39,7 +40,7 @@ class StudyUnitService
   end
 
   # Give next course according to sequence in Learning Path
-  def get_course(lp_courses)
+  def get_course(lp_courses) # get or build
     lp_courses_left = lp_courses.where.not(id: talent_courses.pluck(:course_id))
     if lp_courses_left.empty?
       puts "All courses are completed in this LP"

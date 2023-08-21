@@ -4,22 +4,12 @@ module Api
 
       def index
         @talents = Talent.all
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'Loaded Talents',
-                      data: TalentBlueprint.render_as_json(@talents, view: :all)
-                      },
-                      status: :ok
+        render json: { data: TalentBlueprint.render_as_json(@talents, view: :all) }
       end
 
       def show
         @talent = Talent.find(params[:id])
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'Loaded Talent',
-                      data: TalentBlueprint.render_as_json(@talent, view: :all)
-                      },
-                      status: :ok
+        render json: { data: TalentBlueprint.render_as_json(@talent, view: :all) }
       end
 
       def create
@@ -28,27 +18,13 @@ module Api
         if @talent.save
           if @talent.is_author?
             Author.find_or_create_by(name: @talent.name)
-            render json: {
-                          status: 'SUCCESS',
-                          message: 'talent is saved and became an author',
-                          data: TalentBlueprint.render_as_json(@talent, view: :all)
-                          },
-                          status: :created
+            render json: { data: TalentBlueprint.render_as_json(@talent, view: :all) }
           else
-            render json: {
-                          status: 'SUCCESS',
-                          message: 'talent is saved',
-                          data: TalentBlueprint.render_as_json(@talent, view: :all)
-                          },
-                          status: :created
+            render json: { data: TalentBlueprint.render_as_json(@talent, view: :all) }
           end
         else
-          render json: {
-                        status: 'Error',
-                        message: 'talent is not saved',
-                        data: @talent.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: @talent.errors },
+                         status: :unprocessable_entity
         end
       end
 
@@ -58,27 +34,13 @@ module Api
         if @talent.update_attributes(talent_params)
           if @talent.is_author?
             Author.find_or_create_by(name: @talent.name)
-            render json: {
-                          status: 'SUCCESS',
-                          message: 'talent is updated and became an author',
-                          data: TalentBlueprint.render_as_json(@talent, view: :all)
-                          },
-                          status: :ok
+            render json: { data: TalentBlueprint.render_as_json(@talent, view: :all) }
           else
-            render json: {
-                          status: 'SUCCESS',
-                          message: 'talent is updated',
-                          data: TalentBlueprint.render_as_json(@talent, view: :all)
-                          },
-                          status: :ok
+            render json: { data: TalentBlueprint.render_as_json(@talent, view: :all) }
           end
         else
-          render json: {
-                        status: 'Error',
-                        message: 'talent is not updated',
-                        data: @talent.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: @talent.errors },
+                         status: :unprocessable_entity
         end
       end
 
@@ -86,11 +48,7 @@ module Api
         @talent = Talent.find(params[:id])
         @talent.destroy
 
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'talent successfully deleted'
-                      },
-                      status: :no_content
+        render json: {}, status: :no_content
       end
 
       private

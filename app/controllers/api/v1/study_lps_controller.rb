@@ -4,22 +4,12 @@ module Api
       before_action :set_talent, except: :index
       def index
         @study_lps = StudyLp.all
-        render json: {
-                      status: 'SUCCESS',
-                      message: "Loaded All Study Learning Paths",
-                      data: StudyLpBlueprint.render_as_json(@study_lps, view: :all)
-                      },
-                      status: :ok
+        render json: { data: StudyLpBlueprint.render_as_json(@study_lps, view: :all) }
       end
 
       def show
         @study_lp = StudyLp.find(params[:id])
-        render json: {
-                      status: 'SUCCESS',
-                      message: "Loaded Study Learning Path",
-                      data: StudyLpBlueprint.render_as_json(@study_lp, view: :all)
-                      },
-                      status: :ok
+        render json: { data: StudyLpBlueprint.render_as_json(@study_lp, view: :all) }
       end
 
       def create
@@ -29,19 +19,10 @@ module Api
 
           StudyUnitService.new(study_lp_params).get_start_course
 
-          render json: {
-                        status: 'SUCCESS',
-                        message: 'study_lp is saved',
-                        data: StudyLpBlueprint.render_as_json(@study_lp, view: :all)
-                        },
-                        status: :created
+          render json: { data: StudyLpBlueprint.render_as_json(@study_lp, view: :all) }
         else
-          render json: {
-                        status: 'Error',
-                        message: 'study_lp is not saved',
-                        data: @study_lp.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: @study_lp.errors },
+                         status: :unprocessable_entity
         end
       end
 
@@ -49,19 +30,10 @@ module Api
         @study_lp = StudyLp.find(params[:id])
 
         if @study_lp.update_attributes(study_lp_params)
-          render json: {
-                        status: 'SUCCESS',
-                        message: 'study_lp is updated',
-                        data: StudyLpBlueprint.render_as_json(@study_lp, view: :all)
-                        },
-                        status: :ok
+          render json: { data: StudyLpBlueprint.render_as_json(@study_lp, view: :all) }
         else
-          render json: {
-                        status: 'Error',
-                        message: 'study_lp is not updated',
-                        data: @study_lp.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: @study_lp.errors },
+                         status: :unprocessable_entity
         end
       end
 
@@ -69,11 +41,7 @@ module Api
         @study_lp = StudyLp.find(params[:id])
         @study_lp.destroy
 
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'study_lp successfully deleted',
-                      },
-                      status: :no_content
+        render json: {}, status: :no_content
       end
 
       private

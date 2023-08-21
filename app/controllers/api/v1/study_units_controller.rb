@@ -4,22 +4,12 @@ module Api
       before_action :set_talent, except: :index
       def index
         @study_units = StudyUnit.all
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'Loaded all Study Units',
-                      data: StudyUnitBlueprint.render_as_json(@study_units, view: :all)
-                      },
-                      status: :ok
+        render json: { data: StudyUnitBlueprint.render_as_json(@study_units, view: :all) }
       end
 
       def show
         @study_unit = StudyUnit.find(params[:id])
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'Loaded Study Unit',
-                      data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all)
-                      },
-                      status: :ok
+        render json: { data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all) }
       end
 
       def create
@@ -27,19 +17,10 @@ module Api
 
         if @study_unit.save
 
-          render json: {
-                        status: 'SUCCESS',
-                        message: 'study_unit is saved',
-                        data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all)
-                        },
-                        status: :created
+          render json: { data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all) }
         else
-          render json: {
-                        status: 'Error',
-                        message: 'study_unit is not saved',
-                        data: @study_unit.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: @study_unit.errors },
+                         status: :unprocessable_entity
         end
       end
 
@@ -51,28 +32,14 @@ module Api
 
             StudyUnitService.new(study_unit_params).next_course
 
-            render json: {
-                          status: 'SUCCESS',
-                          message: 'study_unit is updated and get next course',
-                          data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all)
-                          },
-                          status: :ok
+            render json: { data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all) }
 
           else
-            render json: {
-                          status: 'SUCCESS',
-                          message: 'study_unit is updated',
-                          data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all)
-                          },
-                          status: :ok
+            render json: { data: StudyUnitBlueprint.render_as_json(@study_unit, view: :all) }
           end
         else
-          render json: {
-                        status: 'Error',
-                        message: 'study_unit is not updated',
-                        data: @study_unit.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: @study_unit.errors },
+                         status: :unprocessable_entity
         end
       end
 
@@ -80,11 +47,7 @@ module Api
         @study_unit = StudyUnit.find(params[:id])
         @study_unit.destroy
 
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'study_unit successfully deleted',
-                      },
-                      status: :no_content
+        render json: {}, status: :no_content
       end
 
       private
