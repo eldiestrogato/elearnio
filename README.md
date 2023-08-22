@@ -232,10 +232,6 @@ Definition of done for this challenge:
 
 # TEST
 
-RSpec only CRUD tests of controllers are implemented and successfully passed. Run in project folder to check:
-- rspec spec/requests/api/v1/authors_controller_spec.rb
-- rspec spec/requests/api/v1/courses_controller_spec.rb
-- rspec spec/requests/api/v1/learning_paths_controller_spec.rb
-- rspec spec/requests/api/v1/study_lps_controller_spec.rb
-- rspec spec/requests/api/v1/study_units_controller_spec.rb
-- rspec spec/requests/api/v1/talents_controller_spec.rb
+RSpec CRUD tests of controllers and tests of service class are implemented and successfully passed. Run in project folder to check:
+~ rspec spec/requests/api/v1/
+
