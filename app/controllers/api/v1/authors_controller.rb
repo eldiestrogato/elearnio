@@ -3,82 +3,47 @@ module Api
     class AuthorsController < ApplicationController
 
       def index
-        @authors = Author.all
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'Loaded Authors with their courses',
-                      data: AuthorBlueprint.render_as_json(@authors, view: :all)
-                      },
-                      status: :ok
+        authors = Author.all
+        render json: { data: AuthorBlueprint.render_as_json(authors, view: :all) }
       end
 
       def show
-        @author = Author.find(params[:id])
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'Loaded Author with their courses',
-                      data: AuthorBlueprint.render_as_json(@author, view: :all)
-                      },
-                      status: :ok
+        author = Author.find(params[:id])
+        render json: { data: AuthorBlueprint.render_as_json(author, view: :all) }
       end
 
       def create
-        @author = Author.new(author_params)
+        author = Author.new(author_params)
 
-        if @author.save
-          render json: {
-                        status: 'SUCCESS',
-                        message: 'author is saved',
-                        data: AuthorBlueprint.render_as_json(@author, view: :all)
-                        },
-                        status: :created
+        if author.save
+          render json: { data: AuthorBlueprint.render_as_json(author, view: :all) }
         else
-          render json: {
-                        status: 'Error',
-                        message: 'author is not saved',
-                        data: @author.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: author.errors },
+                         status: :unprocessable_entity
         end
       end
 
       def update
-        @author = Author.find(params[:id])
+        author = Author.find(params[:id])
 
-        if @author.update_attributes(author_params)
-          render json: {
-                        status: 'SUCCESS',
-                        message: 'author is updated',
-                        data: AuthorBlueprint.render_as_json(@author, view: :all)
-                        },
-                        status: :ok
+        if author.update_attributes(author_params)
+          render json: { data: AuthorBlueprint.render_as_json(author, view: :all) }
         else
-          render json: {
-                        status: 'Error',
-                        message: 'author is not updated',
-                        data: @author.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: author.errors },
+                         status: :unprocessable_entity
         end
       end
 
       def destroy
-        @author = Author.find(params[:id])
-        if params[:new_author_id].present?
-          @author.change_author(params[:new_author_id])
-          @author.destroy
-          render json: {
-                      status: 'SUCCESS',
-                      message: 'author successfully deleted with taking its courses to another author'
-                      },
-                      status: :no_content
+        author = Author.find(params[:id])
+
+        if Author.find(params[:new_author_id])
+          author.change_author(params[:new_author_id])
+          author.destroy
+          render json: {}, status: :no_content
         else
-          @author.destroy
-          render json: {
-                      status: 'SUCCESS',
-                      message: 'author successfully deleted'
-                      },
-                      status: :no_content
+          render json: { data: author.errors },
+                         status: :unprocessable_entity
         end
       end
 

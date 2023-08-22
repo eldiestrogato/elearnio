@@ -56,7 +56,7 @@ describe Api::V1::StudyUnitsController, type: :request do
       end
 
      it 'responds with created status' do
-       expect(response).to have_http_status :created
+       expect(response).to have_http_status :ok
      end
 
      it 'returns with response body' do

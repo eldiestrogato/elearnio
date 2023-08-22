@@ -3,80 +3,48 @@ module Api
     class LearningPathsController < ApplicationController
 
       def index
-        @learning_paths = LearningPath.all
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'Loaded Learning Paths with its courses',
-                      data: LearningPathBlueprint.render_as_json(@learning_paths, view: :all)
-                      },
-                      status: :ok
+        learning_paths = LearningPath.all
+        render json: { data: LearningPathBlueprint.render_as_json(learning_paths, view: :all) }
       end
 
       def show
-        @learning_path = LearningPath.find(params[:id])
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'Loaded Learning Path with its courses',
-                      data: LearningPathBlueprint.render_as_json(@learning_path, view: :all)
-                      },
-                      status: :ok
+        learning_path = LearningPath.find(params[:id])
+        render json: { data: LearningPathBlueprint.render_as_json(learning_path, view: :all) }
       end
 
       def create
-        @learning_path = LearningPath.new(learning_path_params)
+        learning_path = LearningPath.new(learning_path_params)
 
-        if @learning_path.save
-          render json: {
-                        status: 'SUCCESS',
-                        message: 'learning_path is saved',
-                        data: LearningPathBlueprint.render_as_json(@learning_path, view: :all)
-                        },
-                        status: :created
+        if learning_path.save
+          render json: { data: LearningPathBlueprint.render_as_json(learning_path, view: :all) }
         else
-          render json: {
-                        status: 'Error',
-                        message: 'learning_path is not saved',
-                        data: @learning_path.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: learning_path.errors },
+                         status: :unprocessable_entity
         end
       end
 
       def update
-        @learning_path = LearningPath.find(params[:id])
+        learning_path = LearningPath.find(params[:id])
 
-        if @learning_path.update_attributes(learning_path_params)
-          render json: {
-                        status: 'SUCCESS',
-                        message: 'learning_path is updated',
-                        data: LearningPathBlueprint.render_as_json(@learning_path, view: :all)
-                        },
-                        status: :ok
+        if learning_path.update_attributes(learning_path_params)
+          render json: { data: LearningPathBlueprint.render_as_json(learning_path, view: :all) }
         else
-          render json: {
-                        status: 'Error',
-                        message: 'learning_path is not updated',
-                        data: @learning_path.errors
-                        },
-                        status: :unprocessable_entity
+          render json: { data: learning_path.errors },
+                         status: :unprocessable_entity
         end
       end
 
       def destroy
-        @learning_path = LearningPath.find(params[:id])
-        @learning_path.destroy
+        learning_path = LearningPath.find(params[:id])
+        learning_path.destroy
 
-        render json: {
-                      status: 'SUCCESS',
-                      message: 'learning_path successfully deleted'
-                      },
-                      status: :no_content
+        render json: {}, status: :no_content
       end
 
       private
 
       def learning_path_params
-        params.require(:learning_path).permit(:title, lp_courses_attributes: [:course_id, :course_number])
+        params.require(:learning_path).permit(:title, learning_path_courses_attributes: [:course_id, :course_number])
       end
     end
   end

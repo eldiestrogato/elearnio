@@ -1,5 +1,5 @@
 Fabricator(:course) do
-  title 'Course One'
-  body 'Some body of Course One'
+  title 'Course Test'
+  body 'Some body of Course Test'
   author
 end

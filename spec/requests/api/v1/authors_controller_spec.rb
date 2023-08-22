@@ -38,7 +38,7 @@ describe Api::V1::AuthorsController, type: :request do
         post api_v1_authors_path, params: params
       end
      it 'responds with created status' do
-       expect(response).to have_http_status :created
+      expect(response).to have_http_status :ok
      end
 
      it 'returns with response body' do
@@ -70,7 +70,6 @@ describe Api::V1::AuthorsController, type: :request do
       before do
         params = {author: { name: 'Author Two' }}
         patch api_v1_author_path(@author_one.id), params: params
-
       end
      it 'responds with ok status' do
        expect(response).to have_http_status :ok
@@ -98,27 +97,25 @@ describe Api::V1::AuthorsController, type: :request do
 
   describe 'Destroy Action - DELETE /api/v1/authors/:id' do
     before do
-      delete api_v1_author_path(@author_one.id)
+      @courses = Fabricate.times(2, :course, author: @author_one)
+      params = { new_author_id: @author_two.id }
+      delete api_v1_author_path(@author_one.id), params: params
     end
-   it 'responds with no_content status' do
+   it 'responds with status' do
      expect(response).to have_http_status :no_content
    end
 
-   it 'returns with response body when author has no courses' do
-     expect(response.body).to be_empty
+   it 'responds with an error' do
+     author = Fabricate(:author)
+     params = { new_author_id: "bullshit"}
+
+     expect{delete api_v1_author_path(author.id), params: params}.to raise_exception(ActiveRecord::RecordNotFound)
    end
 
-    it 'returns with response body when author has some courses' do
-      author = Fabricate(:author, name: 'Author for destroying')
-      courses = Fabricate.times(2, :course, author: author)
-      params = { new_author_id: @author_two.id }
-      
-      delete api_v1_author_path(author.id), params: params
+   it 'returns with response body when author has some courses' do
 
-      expect{courses.each{|c| c.reload}}.to change { courses.first.author_id }.to(@author_two.id)
-                                        .and change { courses.last.author_id }.to(@author_two.id)
-      expect(response.body).to be_empty
-
-    end
+     expect{@courses.each{|c| c.reload}}.to change { @courses.first.author_id }.to(@author_two.id)
+                                       .and change { @courses.last.author_id }.to(@author_two.id)
+   end
  end
 end

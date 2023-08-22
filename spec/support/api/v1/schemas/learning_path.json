@@ -6,7 +6,7 @@
       "type": "object",
       "properties": {
         "id": { "type": "integer" },
-        "courses_of_lp": {
+        "courses_of_learning_path": {
            "type": "array",
             "items":  [
               {
@@ -38,7 +38,7 @@
          },
         "title": { "type": "string" }
       },
-      "required": ["id", "courses_of_lp", "title"]
+      "required": ["id", "courses_of_learning_path", "title"]
     }
   },
   "required": ["data"]

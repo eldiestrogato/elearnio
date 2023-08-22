@@ -9,12 +9,12 @@
           "type": "object",
           "properties": {
             "id": { "type": "integer" },
-            "talent_study_lps": { "type": "array" },
+            "talent_study_learning_paths": { "type": "array" },
             "talent_study_units": { "type": "array" },
             "name": { "type": "string" },
             "is_author": { "type": "boolean" }
           },
-          "required": ["id", "talent_study_lps", "talent_study_units", "is_author", "name"]
+          "required": ["id", "talent_study_learning_paths", "talent_study_units", "is_author", "name"]
         }
       ]
     }
